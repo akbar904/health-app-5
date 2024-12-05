@@ -18,82 +18,6 @@
       ]
     },
     {
-      "name": "lib/features/app/app_view.dart",
-      "description": "Defines the root widget of the application. So this files can not be deleted at all.",
-      "class_diagram": "@startuml\nclass AppView\nclass _App\n@enduml",
-      "methods": [],
-      "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:stacked_services/stacked_services.dart"
-      ]
-    },
-    {
-      "name": "lib/features/home/home_view.dart",
-      "description": "The main home view of the application.",
-      "class_diagram": "@startuml\nclass HomeView\n@enduml",
-      "methods": [],
-      "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:gap/gap.dart"
-      ]
-    },
-    {
-      "name": "lib/features/home/home_viewmodel.dart",
-      "description": "ViewModel for the HomeView, manages the state and business logic.",
-      "class_diagram": "@startuml\nclass HomeViewModel\n@enduml",
-      "methods": [
-        {
-          "name": "incrementCounter",
-          "description": "Increments the counter value",
-          "parameters": [],
-          "return_type": "void"
-        },
-        {
-          "name": "showDialog",
-          "description": "Shows a custom dialog",
-          "parameters": [],
-          "return_type": "void"
-        },
-        {
-          "name": "showBottomSheet",
-          "description": "Shows a custom bottom sheet",
-          "parameters": [],
-          "return_type": "void"
-        }
-      ],
-      "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:stacked_services/stacked_services.dart"
-      ]
-    },
-    {
-      "name": "lib/features/startup/startup_view.dart",
-      "description": "The startup view shown when the app is first launched.",
-      "class_diagram": "@startuml\nclass StartupView\n@enduml",
-      "methods": [],
-      "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:gap/gap.dart"
-      ]
-    },
-    {
-      "name": "lib/features/startup/startup_viewmodel.dart",
-      "description": "ViewModel for the StartupView, handles initialization logic.",
-      "class_diagram": "@startuml\nclass StartupViewModel\n@enduml",
-      "methods": [
-        {
-          "name": "runStartupLogic",
-          "description": "Runs the startup logic and navigates to the home view",
-          "parameters": [],
-          "return_type": "Future"
-        }
-      ],
-      "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:stacked_services/stacked_services.dart"
-      ]
-    },
-    {
       "name": "lib/main.dart",
       "description": "The entry point of the application. Sets up the app and runs it.",
       "class_diagram": "@startuml\nclass main\n@enduml",
@@ -112,6 +36,2960 @@
         "package:my_app/app/app.dialogs.dart",
         "package:my_app/app/app.locator.dart",
         "package:my_app/features/app/app_view.dart"
+      ]
+    },
+    {
+      "name": "lib/config/development/firebase_options_development.dart",
+      "description": "This Dart file contains the Firebase options configuration for the development environment. It is used to initialize the Firebase SDK with the appropriate credentials and configuration for the development version of the application.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": [
+        "package:firebase_core/firebase_core.dart",
+        "firebase_options.dart"
+      ]
+    },
+    {
+      "name": "lib/app/app.locator.dart",
+      "description": "This Dart file is responsible for setting up the service locator in a Stacked architecture-based application. It registers various services, such as the BottomSheetService, DialogService, and NavigationService, which can be accessed globally throughout the application.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "setupLocator",
+          "description": "This function sets up the service locator by registering the environment and various services as lazy singletons.",
+          "parameters": [
+            "environment",
+            "environmentFilter"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "stacked_services/src/bottom_sheet/bottom_sheet_service.dart",
+        "stacked_services/src/dialog/dialog_service.dart",
+        "stacked_services/src/navigation/navigation_service.dart",
+        "stacked_shared/stacked_shared.dart"
+      ]
+    },
+    {
+      "name": "lib/app/app.dialogs.dart",
+      "description": "Auto-generated entry for lib/app/app.dialogs.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/app/app.bottomsheets.dart",
+      "description": "This Dart file sets up the bottom sheet UI for the Gyde app. It defines the different types of bottom sheets that can be displayed and provides a setup function to register the custom sheet builders.",
+      "class_diagram": "@startuml\nclass BottomSheetService {\n  +setCustomSheetBuilders()\n}\n\ninterface SheetBuilder {\n  (context, request, completer)\n}\n\nclass NoticeSheet {\n  +NoticeSheet(request, completer)\n}\n\nBottomSheetService <-- BottomSheetType\nBottomSheetService o-- SheetBuilder\nSheetBuilder <|-- NoticeSheet\n@enduml",
+      "methods": [
+        {
+          "name": "setupBottomSheetUi",
+          "description": "Sets up the custom bottom sheet builders for the different bottom sheet types.",
+          "parameters": [
+            "bottomsheetService"
+          ],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/app/app.locator.dart",
+        "gyde_app/ui/bottom_sheets/notice/notice_sheet.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/features/assignment/assignment_repository.dart",
+      "description": "This Dart file defines the `AssignmentRepository` class, which is responsible for managing assignments in the application. It provides methods for fetching, creating, updating, and deleting assignments, as well as submitting and grading them.",
+      "class_diagram": "@startuml\nclass AssignmentRepository {\n  -List<Assignment> _assignments\n  +Future<List<Assignment>> getAssignments()\n  +Future<Assignment> getAssignment(String id)\n  +Future<void> createAssignment(Assignment assignment)\n  +Future<void> updateAssignment(Assignment assignment)\n  +Future<void> deleteAssignment(String id)\n  +Future<void> submitAssignment(String id, String submission)\n  +Future<void> gradeAssignment(String id, double grade, String feedback)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "getAssignments",
+          "description": "Retrieves a list of all assignments.",
+          "parameters": null,
+          "return_type": "Future<List<Assignment>>"
+        },
+        {
+          "name": "getAssignment",
+          "description": "Retrieves a single assignment by its ID.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<Assignment>"
+        },
+        {
+          "name": "createAssignment",
+          "description": "Creates a new assignment.",
+          "parameters": [
+            "Assignment assignment"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateAssignment",
+          "description": "Updates an existing assignment.",
+          "parameters": [
+            "Assignment assignment"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteAssignment",
+          "description": "Deletes an assignment by its ID.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "submitAssignment",
+          "description": "Submits an assignment for grading.",
+          "parameters": [
+            "String id",
+            "String submission"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "gradeAssignment",
+          "description": "Grades an assignment and updates its status.",
+          "parameters": [
+            "String id",
+            "double grade",
+            "String feedback"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "../../models/assignment.dart"
+      ]
+    },
+    {
+      "name": "lib/features/dashboard/dashboard_repository.dart",
+      "description": "This Dart file contains the implementation of the DashboardRepository class, which provides methods to fetch dashboard data for students, teachers, and admins. It also includes methods to fetch activity logs and performance metrics.",
+      "class_diagram": "@startuml\nclass DashboardRepository {\n  +Future<Map<String, dynamic>> getStudentDashboardData(String studentId)\n  +Future<Map<String, dynamic>> getTeacherDashboardData(String teacherId)\n  +Future<Map<String, dynamic>> getAdminDashboardData()\n  +Future<List<Map<String, dynamic>>> getActivityLogs()\n  +Future<Map<String, dynamic>> getPerformanceMetrics()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "getStudentDashboardData",
+          "description": "Fetches the dashboard data for a student, including information about their enrolled courses, completed and pending assignments, average grade, attendance rate, course progress, and upcoming deadlines.",
+          "parameters": [
+            "studentId"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getTeacherDashboardData",
+          "description": "Fetches the dashboard data for a teacher, including information about their total students, active courses, pending assignments, average class grade, class attendance, recent student submissions, and upcoming classes.",
+          "parameters": [
+            "teacherId"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getAdminDashboardData",
+          "description": "Fetches the dashboard data for an admin, including information about the total students and teachers, active courses, system health, user activity, and resource utilization.",
+          "parameters": [],
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getActivityLogs",
+          "description": "Fetches the activity logs, including information about user actions such as logins and assignment submissions.",
+          "parameters": [],
+          "return_type": "Future<List<Map<String, dynamic>>>"
+        },
+        {
+          "name": "getPerformanceMetrics",
+          "description": "Fetches the performance metrics of the system, including information about system uptime, average response time, active users, and error rate.",
+          "parameters": [],
+          "return_type": "Future<Map<String, dynamic>>"
+        }
+      ],
+      "dependencies": [
+        "dart:async"
+      ]
+    },
+    {
+      "name": "lib/features/dashboard/dashboard_viewmodel.dart",
+      "description": "The DashboardViewModel class is responsible for managing the state and functionality of the dashboard feature in the application. It handles loading user data, retrieving dashboard data based on the user's role, and providing navigation to different parts of the app.",
+      "class_diagram": "@startuml\nclass DashboardViewModel {\n  - _analyticsService: AnalyticsService\n  - _userService: UserService\n  - _currentUser: User\n  - _dashboardData: Map<String, dynamic>\n  + currentUser: User\n  + dashboardData: Map<String, dynamic>\n  + isAdmin: bool\n  + isTeacher: bool\n  + isStudent: bool\n  + initialize(): Future<void>\n  - _loadDashboardData(): Future<void>\n  + refreshDashboard(): Future<void>\n  + navigateToProfile(): void\n  + navigateToCourses(): void\n  + navigateToAssignments(): void\n  + navigateToAnalytics(): void\n  + logout(): void\n}\n\nDashboardViewModel --o AnalyticsService\nDashboardViewModel --o UserService\nDashboardViewModel --o User\n@enduml",
+      "methods": [
+        {
+          "name": "initialize",
+          "description": "Initializes the DashboardViewModel by fetching the current user and loading the dashboard data.",
+          "parameters": [
+            "Future<void>"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "_loadDashboardData",
+          "description": "Loads the dashboard data based on the user's role (admin, teacher, or student).",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "refreshDashboard",
+          "description": "Refreshes the dashboard data by reloading it.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "navigateToProfile",
+          "description": "Navigates to the user's profile page.",
+          "parameters": null,
+          "return_type": null
+        },
+        {
+          "name": "navigateToCourses",
+          "description": "Navigates to the courses page.",
+          "parameters": null,
+          "return_type": null
+        },
+        {
+          "name": "navigateToAssignments",
+          "description": "Navigates to the assignments page.",
+          "parameters": null,
+          "return_type": null
+        },
+        {
+          "name": "navigateToAnalytics",
+          "description": "Navigates to the analytics page.",
+          "parameters": null,
+          "return_type": null
+        },
+        {
+          "name": "logout",
+          "description": "Logs the user out of the application.",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart",
+        "../../services/analytics_service.dart",
+        "../../services/user_service.dart",
+        "../../app/app.locator.dart",
+        "../../models/user.dart"
+      ]
+    },
+    {
+      "name": "lib/features/dashboard/admin_dashboard_view.dart",
+      "description": "The AdminDashboardView class is the main UI component for the admin dashboard in the application. It displays various metrics and management features for the application's administrators.",
+      "class_diagram": "@startuml\nclass AdminDashboardView extends StackedView<DashboardViewModel> {\n    +builder(BuildContext, DashboardViewModel, Widget?): Widget\n    +_buildOverviewCards(DashboardViewModel): Widget\n    +_buildStatCard(String, String): Widget\n    +_buildPerformanceMetrics(DashboardViewModel): Widget\n    +_buildUserManagement(DashboardViewModel): Widget\n    +_buildAdminDrawer(DashboardViewModel): Widget\n    +viewModelBuilder(BuildContext): DashboardViewModel\n    +onViewModelReady(DashboardViewModel): void\n}\n\nclass DashboardViewModel {\n    +isBusy: bool\n    +hasError: bool\n    +error: Object\n    +dashboardData: Map<String, int>\n    +navigateToProfile(): void\n    +navigateToCourses(): void\n    +navigateToAssignments(): void\n    +navigateToAnalytics(): void\n    +logout(): void\n    +initialize(): void\n}\n\nAdminDashboardView --> DashboardViewModel\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the main UI of the AdminDashboardView, handling loading, error, and successful data states.",
+          "parameters": [
+            "BuildContext",
+            "DashboardViewModel",
+            "Widget?"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildOverviewCards",
+          "description": "Builds the overview cards displaying key metrics like total students, teachers, active courses, and assignments.",
+          "parameters": [
+            "DashboardViewModel"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildStatCard",
+          "description": "Builds a single stat card with a title and value.",
+          "parameters": [
+            "String",
+            "String"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildPerformanceMetrics",
+          "description": "Builds the section displaying performance metrics, including a grade chart and student progress widget.",
+          "parameters": [
+            "DashboardViewModel"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildUserManagement",
+          "description": "Builds the section displaying recent user activities.",
+          "parameters": [
+            "DashboardViewModel"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildAdminDrawer",
+          "description": "Builds the admin drawer, providing navigation to various management features.",
+          "parameters": [
+            "DashboardViewModel"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Creates a new instance of the DashboardViewModel.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "DashboardViewModel"
+        },
+        {
+          "name": "onViewModelReady",
+          "description": "Initializes the DashboardViewModel when the view is ready.",
+          "parameters": [
+            "DashboardViewModel"
+          ],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:stacked/stacked.dart",
+        "./dashboard_viewmodel.dart",
+        "../../ui/widgets/loading_indicator.dart",
+        "../../ui/widgets/error_display.dart",
+        "../../ui/widgets/student_progress_widget.dart",
+        "../../ui/widgets/grade_chart_widget.dart"
+      ]
+    },
+    {
+      "name": "lib/features/dashboard/student_dashboard_view.dart",
+      "description": "Auto-generated entry for lib/features/dashboard/student_dashboard_view.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/l10n/l10n.dart",
+      "description": "This Dart file serves as the entry point for the localization functionality of the application. It exports the necessary components for managing localized strings and supported locales.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": [
+        "package:flutter_gen/gen_l10n/app_localizations.dart",
+        "localizations_extension.dart",
+        "supported_locales.dart"
+      ]
+    },
+    {
+      "name": "lib/features/profile/profile_repository.dart",
+      "description": "This file contains the ProfileRepository class, which provides functionality for managing user profile-related operations, such as updating the profile, profile picture, notification settings, and privacy settings. It also retrieves the user's profile settings.",
+      "class_diagram": "@startuml\nclass ProfileRepository {\n  +Future<void> updateProfile(User user)\n  +Future<void> updateProfilePicture(String userId, String imageUrl)\n  +Future<void> updateNotificationSettings(String userId, Map<String, bool> settings)\n  +Future<void> updatePrivacySettings(String userId, Map<String, bool> settings)\n  +Future<Map<String, dynamic>> getProfileSettings(String userId)\n}\n\n@enduml",
+      "methods": [
+        {
+          "name": "updateProfile",
+          "description": "Updates the user's profile information.",
+          "parameters": [
+            "User user"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateProfilePicture",
+          "description": "Updates the user's profile picture.",
+          "parameters": [
+            "String userId",
+            "String imageUrl"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateNotificationSettings",
+          "description": "Updates the user's notification settings.",
+          "parameters": [
+            "String userId",
+            "Map<String, bool> settings"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updatePrivacySettings",
+          "description": "Updates the user's privacy settings.",
+          "parameters": [
+            "String userId",
+            "Map<String, bool> settings"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getProfileSettings",
+          "description": "Retrieves the user's profile settings, including notification and privacy settings.",
+          "parameters": [
+            "String userId"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        }
+      ],
+      "dependencies": [
+        "../../models/user.dart"
+      ]
+    },
+    {
+      "name": "lib/features/dashboard/teacher_dashboard_view.dart",
+      "description": "Auto-generated entry for lib/features/dashboard/teacher_dashboard_view.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/l10n/localizations_extension.dart",
+      "description": "This file defines a Dart extension on the `BuildContext` class that provides a convenient way to access the current `AppLocalizations` instance.",
+      "class_diagram": "@startuml\nclass BuildContext\nclass AppLocalizations\n\nBuildContext <|-- LocalizationsX\nLocalizationsX : get localizations()\n@enduml",
+      "methods": [
+        {
+          "name": "get localizations",
+          "description": "Retrieves the current `AppLocalizations` instance from the `BuildContext`.",
+          "parameters": null,
+          "return_type": "AppLocalizations"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/widgets.dart",
+        "package:flutter_gen/gen_l10n/app_localizations.dart"
+      ]
+    },
+    {
+      "name": "lib/features/profile/profile_view.dart",
+      "description": "Auto-generated entry for lib/features/profile/profile_view.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/l10n/supported_locales.dart",
+      "description": "This Dart file defines the supported locales and localization delegates for the application.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "localizationsDelegates",
+          "description": "Returns the list of localization delegates used by the application.",
+          "parameters": null,
+          "return_type": "List<LocalizationsDelegate<dynamic>>"
+        },
+        {
+          "name": "supportedLocales",
+          "description": "Returns the list of supported locales for the application.",
+          "parameters": null,
+          "return_type": "List<Locale>"
+        }
+      ],
+      "dependencies": [
+        "flutter/widgets.dart",
+        "flutter_gen/gen_l10n/app_localizations.dart"
+      ]
+    },
+    {
+      "name": "lib/main/bootstrap.dart",
+      "description": "This file contains the bootstrap function that sets up the Flutter app and handles platform-specific configurations, dependency injection, and error handling.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "bootstrap",
+          "description": "The main entry point function that initializes the Flutter app and runs the app builder function.",
+          "parameters": [
+            "builder",
+            "flavor"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "dart:async",
+        "package:flutter/material.dart",
+        "package:flutter/services.dart",
+        "package:gyde_app/app/app.bottomsheets.dart",
+        "package:gyde_app/app/app.dialogs.dart",
+        "package:gyde_app/app/app.locator.dart",
+        "package:gyde_app/models/enums/flavor.dart",
+        "package:gyde_app/utils/flavors/flavors.dart"
+      ]
+    },
+    {
+      "name": "lib/features/profile/profile_viewmodel.dart",
+      "description": "Provides the view model for the user profile screen, handling the user's information, updating the profile, and changing the password.",
+      "class_diagram": "@startuml\nclass ProfileViewModel {\n  - _userService: UserService\n  - _user: User\n  - _newName: String\n  - _newEmail: String\n  - _currentPassword: String\n  - _newPassword: String\n  - _confirmPassword: String\n\n  + setNewName(String value): void\n  + setNewEmail(String value): void\n  + setCurrentPassword(String value): void\n  + setNewPassword(String value): void\n  + setConfirmPassword(String value): void\n  + initialize(): Future<void>\n  + updateProfile(): Future<void>\n  + changePassword(): Future<void>\n  + canUpdateProfile: bool\n  + canChangePassword: bool\n}\n\nProfileViewModel -[hidden]- UserService\n@enduml",
+      "methods": [
+        {
+          "name": "setNewName",
+          "description": "Sets the new name for the user",
+          "parameters": [
+            "String value"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setNewEmail",
+          "description": "Sets the new email for the user",
+          "parameters": [
+            "String value"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setCurrentPassword",
+          "description": "Sets the current password for the user",
+          "parameters": [
+            "String value"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setNewPassword",
+          "description": "Sets the new password for the user",
+          "parameters": [
+            "String value"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setConfirmPassword",
+          "description": "Sets the confirmed password for the user",
+          "parameters": [
+            "String value"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "initialize",
+          "description": "Initializes the view model by fetching the current user's information",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateProfile",
+          "description": "Updates the user's profile information",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "changePassword",
+          "description": "Changes the user's password",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "canUpdateProfile",
+          "description": "Determines if the user can update their profile",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "canChangePassword",
+          "description": "Determines if the user can change their password",
+          "parameters": null,
+          "return_type": "bool"
+        }
+      ],
+      "dependencies": [
+        "stacked/stacked.dart",
+        "../../models/user.dart",
+        "../../services/user_service.dart",
+        "../../app/app.locator.dart"
+      ]
+    },
+    {
+      "name": "lib/config/production/firebase_options_production.dart",
+      "description": "This Dart file contains the configuration options for the Firebase SDK in the production environment. It is responsible for setting up the necessary credentials and settings to interact with the Firebase services.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": [
+        "firebase_core",
+        "firebase_core_platform_interface"
+      ]
+    },
+    {
+      "name": "lib/main/main_development.dart",
+      "description": "The main entry point for the development version of the Gyde app. It bootstraps the app with the necessary configuration and starts the app with the `AppView` as the root widget.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "main",
+          "description": "The main function that runs when the app is launched. It calls the `bootstrap` function to initialize the app with the `AppView` as the root and the `Flavor.development` configuration.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/main/bootstrap.dart",
+        "gyde_app/models/enums/flavor.dart",
+        "gyde_app/ui/views/app/app_view.dart"
+      ]
+    },
+    {
+      "name": "lib/main/main_production.dart",
+      "description": "The main entry point for the production build of the Gyde app. It bootstraps the app and sets the app flavor to production.",
+      "class_diagram": "@startuml\n\nclass AppView {\n  +build(BuildContext): Widget\n}\n\nclass bootstrap {\n  +bootstrap(builder: Function, flavor: Flavor): void\n}\n\nAppView --> bootstrap\n\n@enduml",
+      "methods": [
+        {
+          "name": "main",
+          "description": "The main function that runs when the app is launched in production mode.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/main/bootstrap.dart",
+        "gyde_app/models/enums/flavor.dart",
+        "gyde_app/ui/views/app/app_view.dart"
+      ]
+    },
+    {
+      "name": "lib/observer/screen_observer.dart",
+      "description": "The ScreenObserver class is a NavigatorObserver that tracks screen views using the AnalyticService.",
+      "class_diagram": "@startuml\nclass ScreenObserver extends NavigatorObserver {\n  +didPush()\n  +didReplace()\n  +didPop()\n  -_trackScreenView()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "didPush",
+          "description": "Tracks the screen view when a new route is pushed.",
+          "parameters": [
+            "Route<dynamic>",
+            "Route<dynamic>?"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "didReplace",
+          "description": "Tracks the screen view when a route is replaced.",
+          "parameters": [
+            "newRoute: Route<dynamic>?",
+            "oldRoute: Route<dynamic>?"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "didPop",
+          "description": "Tracks the screen view when a route is popped.",
+          "parameters": [
+            "Route<dynamic>",
+            "Route<dynamic>?"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "_trackScreenView",
+          "description": "Tracks the screen view using the AnalyticService.",
+          "parameters": [
+            "Route<dynamic>"
+          ],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "gyde_app/services/analytic_service.dart"
+      ]
+    },
+    {
+      "name": "lib/models/user.dart",
+      "description": "This Dart file defines a User class that represents a user in the application. It includes properties such as user ID, email, name, role, verification status, photo URL, linked accounts, and preferences. The class provides methods for creating, copying, and converting the user data to and from JSON format. It also includes helper properties to determine the user's role (admin, teacher, student, or parent).",
+      "class_diagram": "@startuml\nclass User {\n  -String id\n  -String email\n  -String name\n  -String role\n  -bool isVerified\n  -String? photoUrl\n  -List<String>? linkedAccounts\n  -Map<String, dynamic>? preferences\n  +User(...)\n  +copyWith(...)\n  +toJson()\n  +fromJson(...)\n  +get isAdmin()\n  +get isTeacher()\n  +get isStudent()\n  +get isParent()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "User",
+          "description": "Constructor for creating a new User object.",
+          "parameters": [
+            "required this.id",
+            "required this.email",
+            "required this.name",
+            "required this.role",
+            "this.isVerified = false",
+            "this.photoUrl",
+            "this.linkedAccounts",
+            "this.preferences"
+          ],
+          "return_type": "User"
+        },
+        {
+          "name": "copyWith",
+          "description": "Creates a new User object with the specified changes.",
+          "parameters": [
+            "String? id",
+            "String? email",
+            "String? name",
+            "String? role",
+            "bool? isVerified",
+            "String? photoUrl",
+            "List<String>? linkedAccounts",
+            "Map<String, dynamic>? preferences"
+          ],
+          "return_type": "User"
+        },
+        {
+          "name": "toJson",
+          "description": "Converts the User object to a JSON map.",
+          "parameters": null,
+          "return_type": "Map<String, dynamic>"
+        },
+        {
+          "name": "fromJson",
+          "description": "Creates a User object from a JSON map.",
+          "parameters": [
+            "Map<String, dynamic> json"
+          ],
+          "return_type": "User"
+        },
+        {
+          "name": "isAdmin",
+          "description": "Checks if the user has the 'admin' role.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "isTeacher",
+          "description": "Checks if the user has the 'teacher' role.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "isStudent",
+          "description": "Checks if the user has the 'student' role.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "isParent",
+          "description": "Checks if the user has the 'parent' role.",
+          "parameters": null,
+          "return_type": "bool"
+        }
+      ],
+      "dependencies": [
+        "dart:convert"
+      ]
+    },
+    {
+      "name": "lib/models/course.dart",
+      "description": "Defines the Course model class, which represents a course with various attributes such as title, description, teacher, students, assignments, schedule, resources, syllabus, and grades. It provides methods to interact with the course data, including getting student grades, checking enrollment, and accessing class schedules.",
+      "class_diagram": "@startuml\n  class Course {\n    -String id\n    -String title\n    -String description\n    -String teacherId\n    -List<String> students\n    -List<String> assignments\n    -Map<String, String> schedule\n    -Map<String, dynamic>? resources\n    -String? syllabus\n    -Map<String, double>? grades\n    +Course({required id, required title, ...})\n    +copyWith({id, title, ...})\n    +toJson()\n    +fromJson(Map<String, dynamic>)\n    +getStudentGrade(String studentId)\n    +isEnrolled(String studentId)\n    +hasAssignment(String assignmentId)\n    +getClassDays()\n    +getClassTime(String day)\n  }\n  @enduml",
+      "methods": [
+        {
+          "name": "Course",
+          "description": "Constructor that initializes the course with the required properties.",
+          "parameters": [
+            "id",
+            "title",
+            "description",
+            "teacherId",
+            "students",
+            "assignments",
+            "schedule",
+            "resources",
+            "syllabus",
+            "grades"
+          ],
+          "return_type": null
+        },
+        {
+          "name": "copyWith",
+          "description": "Returns a new Course object with the specified properties changed.",
+          "parameters": [
+            "id",
+            "title",
+            "description",
+            "teacherId",
+            "students",
+            "assignments",
+            "schedule",
+            "resources",
+            "syllabus",
+            "grades"
+          ],
+          "return_type": "Course"
+        },
+        {
+          "name": "toJson",
+          "description": "Converts the Course object to a JSON map.",
+          "parameters": null,
+          "return_type": "Map<String, dynamic>"
+        },
+        {
+          "name": "fromJson",
+          "description": "Creates a Course object from a JSON map.",
+          "parameters": [
+            "Map<String, dynamic>"
+          ],
+          "return_type": "Course"
+        },
+        {
+          "name": "getStudentGrade",
+          "description": "Returns the grade of the specified student, if available.",
+          "parameters": [
+            "studentId"
+          ],
+          "return_type": "double?"
+        },
+        {
+          "name": "isEnrolled",
+          "description": "Checks if the specified student is enrolled in the course.",
+          "parameters": [
+            "studentId"
+          ],
+          "return_type": "bool"
+        },
+        {
+          "name": "hasAssignment",
+          "description": "Checks if the course has the specified assignment.",
+          "parameters": [
+            "assignmentId"
+          ],
+          "return_type": "bool"
+        },
+        {
+          "name": "getClassDays",
+          "description": "Returns a list of the days the class is scheduled.",
+          "parameters": null,
+          "return_type": "List<String>"
+        },
+        {
+          "name": "getClassTime",
+          "description": "Returns the scheduled class time for the specified day.",
+          "parameters": [
+            "day"
+          ],
+          "return_type": "String?"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "lib/models/quiz.dart",
+      "description": "This Dart file defines the `Quiz` and `Question` classes, which represent the core entities of a quiz in an educational application. The `Quiz` class encapsulates the quiz metadata, such as its ID, title, description, associated course, due date, time limit, publication status, and custom metadata. The `Question` class represents an individual quiz question, including its ID, text, options, correct answer, points, and optional explanation.",
+      "class_diagram": "```\n@startuml\n\nclass Quiz {\n  +String id\n  +String title\n  +String description\n  +List<Question> questions\n  +String courseId\n  +DateTime dueDate\n  +int timeLimit\n  +bool isPublished\n  +Map<String, dynamic>? metadata\n  +Quiz copyWith()\n  +Map<String, dynamic> toJson()\n  +factory Quiz.fromJson()\n  +int get totalPoints\n  +bool get isOverdue\n  +Duration get remainingTime\n}\n\nclass Question {\n  +String id\n  +String text\n  +List<String> options\n  +String correctAnswer\n  +int points\n  +String? explanation\n  +QuestionType type\n  +Question copyWith()\n  +Map<String, dynamic> toJson()\n  +factory Question.fromJson()\n  +bool checkAnswer(String answer)\n}\n\nenum QuestionType {\n  multipleChoice\n  trueFalse\n  shortAnswer\n  essay\n  matching\n}\n\n@enduml\n```",
+      "methods": [
+        {
+          "name": "Quiz.copyWith",
+          "description": "Returns a new `Quiz` instance with the specified properties overridden.",
+          "parameters": [
+            "id",
+            "title",
+            "description",
+            "questions",
+            "courseId",
+            "dueDate",
+            "timeLimit",
+            "isPublished",
+            "metadata"
+          ],
+          "return_type": "Quiz"
+        },
+        {
+          "name": "Quiz.toJson",
+          "description": "Converts the `Quiz` instance to a JSON map.",
+          "parameters": null,
+          "return_type": "Map<String, dynamic>"
+        },
+        {
+          "name": "Quiz.fromJson",
+          "description": "Creates a `Quiz` instance from a JSON map.",
+          "parameters": [
+            "json"
+          ],
+          "return_type": "Quiz"
+        },
+        {
+          "name": "Quiz.totalPoints",
+          "description": "Calculates the total points of all questions in the quiz.",
+          "parameters": null,
+          "return_type": "int"
+        },
+        {
+          "name": "Quiz.isOverdue",
+          "description": "Checks if the quiz is overdue based on the current time and the due date.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "Quiz.remainingTime",
+          "description": "Calculates the remaining time until the quiz's due date.",
+          "parameters": null,
+          "return_type": "Duration"
+        },
+        {
+          "name": "Question.copyWith",
+          "description": "Returns a new `Question` instance with the specified properties overridden.",
+          "parameters": [
+            "id",
+            "text",
+            "options",
+            "correctAnswer",
+            "points",
+            "explanation",
+            "type"
+          ],
+          "return_type": "Question"
+        },
+        {
+          "name": "Question.toJson",
+          "description": "Converts the `Question` instance to a JSON map.",
+          "parameters": null,
+          "return_type": "Map<String, dynamic>"
+        },
+        {
+          "name": "Question.fromJson",
+          "description": "Creates a `Question` instance from a JSON map.",
+          "parameters": [
+            "json"
+          ],
+          "return_type": "Question"
+        },
+        {
+          "name": "Question.checkAnswer",
+          "description": "Checks if the provided answer matches the correct answer for the question.",
+          "parameters": [
+            "answer"
+          ],
+          "return_type": "bool"
+        }
+      ],
+      "dependencies": [
+        "dart:core",
+        "dart:convert"
+      ]
+    },
+    {
+      "name": "lib/services/analytic_service.dart",
+      "description": "A wrapper for Analytics which encapsulates the implementation of the analytics functionality.",
+      "class_diagram": "@startuml\nclass AnalyticService {\n  + init(): Future<void>\n}\n\nInitializableDependency <|-- AnalyticService\n@enduml",
+      "methods": [
+        {
+          "name": "init",
+          "description": "Initializes the AnalyticService.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked_annotations.dart"
+      ]
+    },
+    {
+      "name": "lib/services/analytics_service.dart",
+      "description": "The AnalyticsService class provides methods to fetch various analytics data for different user roles (admin, teacher, student) in an educational application.",
+      "class_diagram": "@startuml\nclass AnalyticsService {\n  +getAdminDashboardData(): Future<Map<String, dynamic>>\n  +getTeacherDashboardData(String teacherId): Future<Map<String, dynamic>>\n  +getStudentDashboardData(String studentId): Future<Map<String, dynamic>>\n  +getPerformanceMetrics(String entityId, String entityType): Future<List<Map<String, dynamic>>>\n  +getAttendanceReport(String entityId, DateTime startDate, DateTime endDate): Future<Map<String, dynamic>>\n  +getGradeDistribution(String courseId): Future<Map<String, dynamic>>\n}\n@enduml",
+      "methods": [
+        {
+          "name": "getAdminDashboardData",
+          "description": "Retrieves the dashboard data for an admin user, including total students, teachers, active courses, assignments, average grade, attendance rate, course completion rate, monthly active users, and recent activities.",
+          "parameters": null,
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getTeacherDashboardData",
+          "description": "Retrieves the dashboard data for a teacher, including total students, active courses, pending assignments, average class grade, attendance rate, student progress, and upcoming deadlines.",
+          "parameters": [
+            "String teacherId"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getStudentDashboardData",
+          "description": "Retrieves the dashboard data for a student, including enrolled courses, completed and pending assignments, average grade, attendance rate, course progress, and upcoming deadlines.",
+          "parameters": [
+            "String studentId"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getPerformanceMetrics",
+          "description": "Retrieves performance metrics for a given entity (e.g., student, teacher) and entity type.",
+          "parameters": [
+            "String entityId",
+            "String entityType"
+          ],
+          "return_type": "Future<List<Map<String, dynamic>>>"
+        },
+        {
+          "name": "getAttendanceReport",
+          "description": "Retrieves the attendance report for a given entity (e.g., student, teacher) within a specified date range.",
+          "parameters": [
+            "String entityId",
+            "DateTime startDate",
+            "DateTime endDate"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getGradeDistribution",
+          "description": "Retrieves the grade distribution for a given course, including the percentage of each grade (A, B, C, D, F), average grade, highest grade, and lowest grade.",
+          "parameters": [
+            "String courseId"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        }
+      ],
+      "dependencies": [
+        "dart:async"
+      ]
+    },
+    {
+      "name": "lib/services/auth_service.dart",
+      "description": "Auto-generated entry for lib/services/auth_service.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/services/assignment_service.dart",
+      "description": "This Dart file defines an AssignmentService class that provides an interface for managing assignments. It includes methods for retrieving, creating, updating, and deleting assignments, as well as submitting and grading them.",
+      "class_diagram": "@startuml\nclass AssignmentService {\n  +getAssignments(): Future<List<Assignment>>\n  +getAssignment(String id): Future<Assignment>\n  +createAssignment(Assignment assignment): Future<void>\n  +updateAssignment(Assignment assignment): Future<void>\n  +deleteAssignment(String id): Future<void>\n  +submitAssignment(String id, String submission): Future<void>\n  +gradeAssignment(String id, double grade, String feedback): Future<void>\n  +getStudentAssignments(String studentId): Future<List<Assignment>>\n  +getCourseAssignments(String courseId): Future<List<Assignment>>\n  +getAssignmentsByStatus(): Future<Map<String, List<Assignment>>>\n}\n\nclass Assignment {\n  +id: String\n  +title: String\n  +description: String\n  +dueDate: DateTime\n  +courseId: String\n  +status: String\n  +grade: double\n  +feedback: String\n  +submission: String\n}\n@enduml",
+      "methods": [
+        {
+          "name": "getAssignments",
+          "description": "Retrieves a list of all assignments.",
+          "parameters": null,
+          "return_type": "Future<List<Assignment>>"
+        },
+        {
+          "name": "getAssignment",
+          "description": "Retrieves a specific assignment by its ID.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<Assignment>"
+        },
+        {
+          "name": "createAssignment",
+          "description": "Creates a new assignment.",
+          "parameters": [
+            "Assignment assignment"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateAssignment",
+          "description": "Updates an existing assignment.",
+          "parameters": [
+            "Assignment assignment"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteAssignment",
+          "description": "Deletes an assignment by its ID.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "submitAssignment",
+          "description": "Submits an assignment by its ID and the submission content.",
+          "parameters": [
+            "String id",
+            "String submission"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "gradeAssignment",
+          "description": "Grades an assignment by its ID, with a grade and feedback.",
+          "parameters": [
+            "String id",
+            "double grade",
+            "String feedback"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getStudentAssignments",
+          "description": "Retrieves all assignments for a specific student by their ID.",
+          "parameters": [
+            "String studentId"
+          ],
+          "return_type": "Future<List<Assignment>>"
+        },
+        {
+          "name": "getCourseAssignments",
+          "description": "Retrieves all assignments for a specific course by its ID.",
+          "parameters": [
+            "String courseId"
+          ],
+          "return_type": "Future<List<Assignment>>"
+        },
+        {
+          "name": "getAssignmentsByStatus",
+          "description": "Retrieves all assignments grouped by their status (pending, submitted, graded).",
+          "parameters": null,
+          "return_type": "Future<Map<String, List<Assignment>>>"
+        }
+      ],
+      "dependencies": [
+        "../models/assignment.dart"
+      ]
+    },
+    {
+      "name": "lib/services/course_service.dart",
+      "description": "The CourseService class provides functionality for managing courses, including retrieving, creating, updating, and deleting courses, as well as handling student enrollment and course analytics.",
+      "class_diagram": "@startuml\nclass CourseService {\n  + getCourses(): Future<List<Course>>\n  + getCourse(String id): Future<Course>\n  + createCourse(Course course): Future<void>\n  + updateCourse(Course course): Future<void>\n  + deleteCourse(String id): Future<void>\n  + getTeacherCourses(String teacherId): Future<List<Course>>\n  + getStudentCourses(String studentId): Future<List<Course>>\n  + isTeacher(): Future<bool>\n  + enrollStudent(String courseId, String studentId): Future<void>\n  + unenrollStudent(String courseId, String studentId): Future<void>\n  + getCourseAnalytics(String courseId): Future<Map<String, dynamic>>\n}\n\nCourseService --> Course\n@enduml",
+      "methods": [
+        {
+          "name": "getCourses",
+          "description": "Retrieves a list of all courses.",
+          "parameters": null,
+          "return_type": "Future<List<Course>>"
+        },
+        {
+          "name": "getCourse",
+          "description": "Retrieves a specific course by its ID.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<Course>"
+        },
+        {
+          "name": "createCourse",
+          "description": "Creates a new course.",
+          "parameters": [
+            "Course course"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateCourse",
+          "description": "Updates an existing course.",
+          "parameters": [
+            "Course course"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteCourse",
+          "description": "Deletes a course by its ID.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getTeacherCourses",
+          "description": "Retrieves a list of courses taught by a specific teacher.",
+          "parameters": [
+            "String teacherId"
+          ],
+          "return_type": "Future<List<Course>>"
+        },
+        {
+          "name": "getStudentCourses",
+          "description": "Retrieves a list of courses a specific student is enrolled in.",
+          "parameters": [
+            "String studentId"
+          ],
+          "return_type": "Future<List<Course>>"
+        },
+        {
+          "name": "isTeacher",
+          "description": "Checks if the current user is a teacher.",
+          "parameters": null,
+          "return_type": "Future<bool>"
+        },
+        {
+          "name": "enrollStudent",
+          "description": "Enrolls a student in a specific course.",
+          "parameters": [
+            "String courseId",
+            "String studentId"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "unenrollStudent",
+          "description": "Unenrolls a student from a specific course.",
+          "parameters": [
+            "String courseId",
+            "String studentId"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getCourseAnalytics",
+          "description": "Retrieves analytics for a specific course.",
+          "parameters": [
+            "String courseId"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        }
+      ],
+      "dependencies": [
+        "../models/course.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/bottom_sheets/notice/notice_sheet_model.dart",
+      "description": "This Dart file defines the `NoticeSheetModel` class, which is a view model for a notice bottom sheet UI component.",
+      "class_diagram": "@startuml\nclass NoticeSheetModel extends BaseViewModel\n@enduml",
+      "methods": [
+        {
+          "name": "NoticeSheetModel",
+          "description": "Constructor for the `NoticeSheetModel` class.",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/common/app_colors.dart",
+      "description": "This file defines a set of constant color values used throughout the app's UI.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/bottom_sheets/notice/notice_sheet.dart",
+      "description": "Auto-generated entry for lib/ui/bottom_sheets/notice/notice_sheet.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/services/user_service.dart",
+      "description": "This Dart file provides a UserService class that manages the CRUD operations for user data, including fetching the current user, getting a list of all users, and performing various user-related actions.",
+      "class_diagram": "@startuml\nclass UserService {\n  + Future<User?> getCurrentUser()\n  + Future<void> setCurrentUser(User user)\n  + Future<List<User>> getUsers()\n  + Future<User> getUser(String id)\n  + Future<void> createUser(User user)\n  + Future<void> updateUser(User user)\n  + Future<void> deleteUser(String id)\n  + Future<void> changePassword(String currentPassword, String newPassword)\n  + Future<List<User>> getUsersByRole(String role)\n  + Future<Map<String, int>> getUserStatistics()\n  + Future<List<User>> searchUsers(String query)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "getCurrentUser",
+          "description": "Fetches the currently logged-in user, if any.",
+          "parameters": null,
+          "return_type": "Future<User?>"
+        },
+        {
+          "name": "setCurrentUser",
+          "description": "Sets the currently logged-in user.",
+          "parameters": [
+            "User user"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getUsers",
+          "description": "Fetches a list of all users.",
+          "parameters": null,
+          "return_type": "Future<List<User>>"
+        },
+        {
+          "name": "getUser",
+          "description": "Fetches a specific user by their ID.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<User>"
+        },
+        {
+          "name": "createUser",
+          "description": "Creates a new user.",
+          "parameters": [
+            "User user"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateUser",
+          "description": "Updates an existing user.",
+          "parameters": [
+            "User user"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteUser",
+          "description": "Deletes a user by their ID.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "changePassword",
+          "description": "Changes the password for the currently logged-in user.",
+          "parameters": [
+            "String currentPassword",
+            "String newPassword"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getUsersByRole",
+          "description": "Fetches a list of users with a specific role.",
+          "parameters": [
+            "String role"
+          ],
+          "return_type": "Future<List<User>>"
+        },
+        {
+          "name": "getUserStatistics",
+          "description": "Fetches user statistics, including the total number of users and the number of users by role.",
+          "parameters": null,
+          "return_type": "Future<Map<String, int>>"
+        },
+        {
+          "name": "searchUsers",
+          "description": "Searches for users based on a query string.",
+          "parameters": [
+            "String query"
+          ],
+          "return_type": "Future<List<User>>"
+        }
+      ],
+      "dependencies": [
+        "../models/user.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/dialogs/info_alert/info_alert_dialog_model.dart",
+      "description": "This Dart file defines the `InfoAlertDialogModel` class, which is a view model for an information alert dialog in a Flutter application.",
+      "class_diagram": "@startuml\nclass InfoAlertDialogModel extends BaseViewModel {\n}\n@enduml",
+      "methods": [
+        {
+          "name": "InfoAlertDialogModel",
+          "description": "The constructor for the `InfoAlertDialogModel` class.",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/dialogs/info_alert/info_alert_dialog.dart",
+      "description": "Auto-generated entry for lib/ui/dialogs/info_alert/info_alert_dialog.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/ui/themes/app_theme.dart",
+      "description": "This Dart file defines the light, dark, and high contrast themes for the app, including the styles and configurations for various UI elements such as the app bar, cards, input fields, and buttons.",
+      "class_diagram": "@startuml\nclass AppTheme {\n  +static ThemeData lightTheme\n  +static ThemeData darkTheme\n  +static ThemeData highContrastTheme\n}\n@enduml",
+      "methods": [
+        {
+          "name": "lightTheme",
+          "description": "Defines the light theme for the app, including the color scheme, brightness, scaffold background color, app bar style, card style, input decoration, and button styles.",
+          "parameters": null,
+          "return_type": "ThemeData"
+        },
+        {
+          "name": "darkTheme",
+          "description": "Defines the dark theme for the app, including the color scheme, brightness, scaffold background color, app bar style, card style, input decoration, and button styles.",
+          "parameters": null,
+          "return_type": "ThemeData"
+        },
+        {
+          "name": "highContrastTheme",
+          "description": "Defines the high contrast theme for the app, including the color scheme, brightness, scaffold background color, text styles, app bar style, card style, input decoration, and button styles.",
+          "parameters": null,
+          "return_type": "ThemeData"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/app/app_view.dart",
+      "description": "The `AppView` class is the main entry point for the application. It sets up the initial app structure and configuration, including the navigation, localization, and screen observation.",
+      "class_diagram": "@startuml\n  class AppView {\n    + build(BuildContext context): Widget\n  }\n\n  class _App {\n    + build(BuildContext context, AppViewModel viewModel): Widget\n  }\n\n  AppView --> _App : builds\n  _App --> AppViewModel : uses\n  _App --> ScreenObserver : observes\n  _App --> StackedService : uses\n  ",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the app's main widget tree, including the `_App` widget and the overall app configuration.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/app/app.router.dart",
+        "package:gyde_app/l10n/supported_locales.dart",
+        "package:gyde_app/observer/screen_observer.dart",
+        "package:gyde_app/ui/views/app/app_viewmodel.dart",
+        "package:stacked/stacked.dart",
+        "package:stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/app/app_viewmodel.dart",
+      "description": "This Dart file defines the AppViewModel class, which is a view model class for the app-level functionality in a Flutter application.",
+      "class_diagram": "@startuml\nclass AppViewModel {\n}\nAppViewModel -up-|> BaseViewModel\n@enduml",
+      "methods": [
+        {
+          "name": "AppViewModel",
+          "description": "The constructor for the AppViewModel class.",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/common/ui_helpers.dart",
+      "description": "This file provides a set of common UI helper functions and widgets for use in a Flutter application. It includes various utility functions for working with screen dimensions, responsive layout, and font sizes, as well as pre-defined spacing widgets.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "verticalSpace",
+          "description": "Creates a vertical spacer widget with a specified height.",
+          "parameters": [
+            "double height"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "screenWidth",
+          "description": "Returns the width of the screen in the current context.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "screenHeight",
+          "description": "Returns the height of the screen in the current context.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "screenHeightFraction",
+          "description": "Returns a fraction of the screen height, optionally offset and capped at a maximum value.",
+          "parameters": [
+            "BuildContext context",
+            "int dividedBy = 1",
+            "double offsetBy = 0",
+            "double max = 3000"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "screenWidthFraction",
+          "description": "Returns a fraction of the screen width, optionally offset and capped at a maximum value.",
+          "parameters": [
+            "BuildContext context",
+            "int dividedBy = 1",
+            "double offsetBy = 0",
+            "double max = 3000"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "halfScreenWidth",
+          "description": "Returns half the width of the screen.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "thirdScreenWidth",
+          "description": "Returns one-third the width of the screen.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "quarterScreenWidth",
+          "description": "Returns one-quarter the width of the screen.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveHorizontalSpaceMedium",
+          "description": "Returns a responsive horizontal space based on the screen width.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveSmallFontSize",
+          "description": "Returns a responsive small font size based on the screen width.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveMediumFontSize",
+          "description": "Returns a responsive medium font size based on the screen width.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveLargeFontSize",
+          "description": "Returns a responsive large font size based on the screen width.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveExtraLargeFontSize",
+          "description": "Returns a responsive extra-large font size based on the screen width.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveMassiveFontSize",
+          "description": "Returns a responsive massive font size based on the screen width.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveFontSize",
+          "description": "Returns a responsive font size based on the screen width, capped at a maximum value.",
+          "parameters": [
+            "BuildContext context",
+            "double? fontSize",
+            "double? max"
+          ],
+          "return_type": "double"
+        }
+      ],
+      "dependencies": [
+        "dart:math",
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/home/home_view.dart",
+      "description": "Auto-generated entry for lib/ui/views/home/home_view.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/ui/views/startup/startup_viewmodel.dart",
+      "description": "The StartupViewModel class is responsible for handling the initial startup logic of the Gyde App. It delays the app startup for 3 seconds and then navigates to the HomeView.",
+      "class_diagram": "@startuml\n  class StartupViewModel {\n    + runStartupLogic(): Future<void>\n  }\n  StartupViewModel --|> BaseViewModel\n  StartupViewModel o-- NavigationService\n  @enduml",
+      "methods": [
+        {
+          "name": "runStartupLogic",
+          "description": "Runs the startup logic for the app, which includes a 3-second delay and then navigates to the HomeView.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/app/app.locator.dart",
+        "gyde_app/app/app.router.dart",
+        "stacked/stacked.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/widgets/accessibility_controls.dart",
+      "description": "This Dart file defines a widget called AccessibilityControls that provides UI controls for adjusting text scale and high contrast settings.",
+      "class_diagram": "@startuml\nclass AccessibilityControls {\n  +double textScale\n  +bool highContrast\n  +Function(double) onTextScaleChanged\n  +Function(bool) onHighContrastChanged\n  +build(BuildContext): Widget\n  -_buildTextScaleControl(): Widget\n  -_buildHighContrastControl(): Widget\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the UI for the AccessibilityControls widget, including text scale and high contrast controls.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildTextScaleControl",
+          "description": "Builds the UI for the text scale control.",
+          "parameters": null,
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildHighContrastControl",
+          "description": "Builds the UI for the high contrast control.",
+          "parameters": null,
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/features/course/course_repository.dart",
+      "description": "This Dart file provides the CourseRepository class, which is responsible for managing the CRUD operations for courses, as well as enrolling and unenrolling students in courses. It also includes methods to retrieve courses for a specific teacher or student.",
+      "class_diagram": "@startuml\nclass CourseRepository {\n  +Future<List<Course>> getCourses()\n  +Future<Course> getCourse(String id)\n  +Future<void> createCourse(Course course)\n  +Future<void> updateCourse(Course course)\n  +Future<void> deleteCourse(String id)\n  +Future<void> enrollStudent(String courseId, String studentId)\n  +Future<void> unenrollStudent(String courseId, String studentId)\n  +Future<List<Course>> getTeacherCourses(String teacherId)\n  +Future<List<Course>> getStudentCourses(String studentId)\n}",
+      "methods": [
+        {
+          "name": "getCourses",
+          "description": "Retrieves a list of all courses",
+          "parameters": null,
+          "return_type": "Future<List<Course>>"
+        },
+        {
+          "name": "getCourse",
+          "description": "Retrieves a single course by its ID",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<Course>"
+        },
+        {
+          "name": "createCourse",
+          "description": "Creates a new course",
+          "parameters": [
+            "Course course"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateCourse",
+          "description": "Updates an existing course",
+          "parameters": [
+            "Course course"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteCourse",
+          "description": "Deletes a course by its ID",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "enrollStudent",
+          "description": "Enrolls a student in a course",
+          "parameters": [
+            "String courseId",
+            "String studentId"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "unenrollStudent",
+          "description": "Unenrolls a student from a course",
+          "parameters": [
+            "String courseId",
+            "String studentId"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getTeacherCourses",
+          "description": "Retrieves a list of courses for a specific teacher",
+          "parameters": [
+            "String teacherId"
+          ],
+          "return_type": "Future<List<Course>>"
+        },
+        {
+          "name": "getStudentCourses",
+          "description": "Retrieves a list of courses for a specific student",
+          "parameters": [
+            "String studentId"
+          ],
+          "return_type": "Future<List<Course>>"
+        }
+      ],
+      "dependencies": [
+        "../../models/course.dart"
+      ]
+    },
+    {
+      "name": "lib/features/course/course_viewmodel.dart",
+      "description": "This Dart file contains the CourseViewModel class, which is responsible for managing the state and functionality related to courses in the application. It interacts with the CourseService to fetch, create, update, and delete courses, as well as handle user actions like enrolling in or unenrolling from courses.",
+      "class_diagram": "@startuml\nclass CourseViewModel {\n  -_courseService : CourseService\n  -_courses : List<Course>\n  -_selectedCourse : Course\n  -_isTeacher : bool\n  +courses : List<Course>\n  +selectedCourse : Course\n  +isTeacher : bool\n  +initialize() : Future<void>\n  +createCourse(Course) : Future<void>\n  +updateCourse(Course) : Future<void>\n  +deleteCourse(String) : Future<void>\n  +selectCourse(Course) : void\n  +enrollInCourse(String) : Future<void>\n  +unenrollFromCourse(String) : Future<void>\n}\n\nCourseViewModel .> CourseService\n@enduml",
+      "methods": [
+        {
+          "name": "initialize",
+          "description": "Initializes the CourseViewModel by fetching the list of courses, checking if the user is a teacher, and notifying listeners of the changes.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "createCourse",
+          "description": "Creates a new course by calling the createCourse method of the CourseService, updates the list of courses, and notifies listeners.",
+          "parameters": [
+            "Course"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateCourse",
+          "description": "Updates an existing course by calling the updateCourse method of the CourseService, updates the list of courses, and notifies listeners.",
+          "parameters": [
+            "Course"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteCourse",
+          "description": "Deletes a course by calling the deleteCourse method of the CourseService, removes the course from the list of courses, and notifies listeners.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "selectCourse",
+          "description": "Sets the selected course and notifies listeners.",
+          "parameters": [
+            "Course"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "enrollInCourse",
+          "description": "Enrolls the user in a course by calling the enrollInCourse method of the CourseService and reinitiializes the CourseViewModel.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "unenrollFromCourse",
+          "description": "Unenrolls the user from a course by calling the unenrollFromCourse method of the CourseService and reinitiializes the CourseViewModel.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart",
+        "../../models/course.dart",
+        "../../services/course_service.dart",
+        "../../app/app.locator.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/widgets/grade_chart_widget.dart",
+      "description": "The GradeChartWidget is a Flutter widget that displays a pie chart visualization of a set of grades. It takes a map of grade values, renders the chart, and provides a legend for the grade categories.",
+      "class_diagram": "@startuml\nclass GradeChartWidget {\n  -Map<String, double>? grades\n  -double width\n  -double height\n  +build(BuildContext context): Widget\n  -_buildLegend(): Widget\n  -_getColorForGrade(String grade): Color\n}\n\nclass GradeChartPainter {\n  -Map<String, double> grades\n  +paint(Canvas canvas, Size size): void\n  +shouldRepaint(CustomPainter oldDelegate): bool\n  -_getColorForGrade(String grade): Color\n}\n\nGradeChartWidget *-down- GradeChartPainter\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the GradeChartWidget, which includes a card, a title, the grade chart, and a legend.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildLegend",
+          "description": "Builds the legend for the grade chart, displaying the grade categories and their corresponding percentages.",
+          "parameters": null,
+          "return_type": "Widget"
+        },
+        {
+          "name": "_getColorForGrade",
+          "description": "Determines the color to use for a given grade category.",
+          "parameters": [
+            "String grade"
+          ],
+          "return_type": "Color"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/widgets/calendar_widget.dart",
+      "description": "The CalendarWidget is a custom Flutter widget that provides a calendar UI with event display functionality. It allows users to view and interact with a monthly calendar, including the ability to select days and display any associated events.",
+      "class_diagram": "@startuml\nclass CalendarWidget extends StatelessWidget {\n  - Map<DateTime, List<String>> events\n  - Function(DateTime)? onDaySelected\n  + Widget build(BuildContext context)\n  - Widget _buildCalendarHeader()\n  - Widget _buildCalendarGrid()\n  - Widget _buildDayCell(int day)\n  - Widget _buildEventList()\n  - bool _hasEvents(int day)\n  - String _getMonthName(int month)\n  - String _formatDate(DateTime date)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the CalendarWidget UI, including the calendar header, grid, and event list.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildCalendarHeader",
+          "description": "Builds the header of the calendar, displaying the current month and year, and providing buttons to navigate to the previous and next months.",
+          "parameters": null,
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildCalendarGrid",
+          "description": "Builds the grid of days for the calendar, with each day represented by a cell that can be tapped to select it.",
+          "parameters": null,
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildDayCell",
+          "description": "Builds a single day cell within the calendar grid, with the day number and an optional event indicator.",
+          "parameters": [
+            "int day"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildEventList",
+          "description": "Builds the list of events associated with the currently displayed calendar, if any.",
+          "parameters": null,
+          "return_type": "Widget"
+        },
+        {
+          "name": "_hasEvents",
+          "description": "Checks if there are any events associated with the specified day.",
+          "parameters": [
+            "int day"
+          ],
+          "return_type": "bool"
+        },
+        {
+          "name": "_getMonthName",
+          "description": "Converts a month number to its corresponding month name.",
+          "parameters": [
+            "int month"
+          ],
+          "return_type": "String"
+        },
+        {
+          "name": "_formatDate",
+          "description": "Formats a given DateTime object as a string in the format 'dd/MM/yyyy'.",
+          "parameters": [
+            "DateTime date"
+          ],
+          "return_type": "String"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/features/auth/auth_repository.dart",
+      "description": "This Dart file contains the AuthRepository class, which provides the core authentication functionality for the application. It handles user login, registration, email verification, password reset, and other related operations.",
+      "class_diagram": "@startuml\nclass AuthRepository {\n  +Future<User> login(String email, String password)\n  +Future<User> register(String email, String password, String role)\n  +Future<void> sendVerificationEmail(String email)\n  +Future<void> verifyEmail(String token)\n  +Future<void> resetPassword(String email)\n  +Future<void> changePassword(String userId, String currentPassword, String newPassword)\n  +Future<void> logout()\n  +Future<bool> isEmailVerified(String userId)\n  +Future<void> linkParentAccount(String parentUserId, String studentUserId)\n}\n\nclass User {\n  +String id\n  +String email\n  +String name\n  +String role\n  +bool isVerified\n}\n@enduml",
+      "methods": [
+        {
+          "name": "login",
+          "description": "Authenticates a user with the provided email and password.",
+          "parameters": [
+            "email",
+            "password"
+          ],
+          "return_type": "Future<User>"
+        },
+        {
+          "name": "register",
+          "description": "Registers a new user with the provided email, password, and role.",
+          "parameters": [
+            "email",
+            "password",
+            "role"
+          ],
+          "return_type": "Future<User>"
+        },
+        {
+          "name": "sendVerificationEmail",
+          "description": "Sends a verification email to the provided email address.",
+          "parameters": [
+            "email"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "verifyEmail",
+          "description": "Verifies the user's email using the provided token.",
+          "parameters": [
+            "token"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "resetPassword",
+          "description": "Sends a password reset email to the provided email address.",
+          "parameters": [
+            "email"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "changePassword",
+          "description": "Changes the password for the user with the provided userId.",
+          "parameters": [
+            "userId",
+            "currentPassword",
+            "newPassword"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "logout",
+          "description": "Logs out the current user.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "isEmailVerified",
+          "description": "Checks if the user with the provided userId has a verified email.",
+          "parameters": [
+            "userId"
+          ],
+          "return_type": "Future<bool>"
+        },
+        {
+          "name": "linkParentAccount",
+          "description": "Links a parent account to a student account.",
+          "parameters": [
+            "parentUserId",
+            "studentUserId"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "../../models/user.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/widgets/quiz_widget.dart",
+      "description": "The QuizWidget is a Flutter widget that displays a quiz with questions and options. It allows users to select answers and submit the quiz, which triggers a callback function with the user's responses.",
+      "class_diagram": "@startuml\nclass QuizWidget extends StatefulWidget {\n  Quiz quiz\n  Function(Map<String, String>) onSubmit\n}\n\nclass _QuizWidgetState extends State<QuizWidget> {\n  Map<String, String> _answers\n  bool _isSubmitted\n  \n  _buildQuestion(Question question)\n  _buildOption(String questionId, String option)\n  _handleSubmit()\n}\n\nclass Question {\n  String id\n  String text\n  List<String> options\n  String correctAnswer\n}\n\nclass Quiz {\n  String title\n  String description\n  List<Question> questions\n}\n@enduml",
+      "methods": [
+        {
+          "name": "QuizWidget",
+          "description": "Constructor for the QuizWidget, which takes a Quiz object and a callback function to be called when the quiz is submitted.",
+          "parameters": [
+            "Key? key",
+            "required Quiz quiz",
+            "required Function(Map<String, String>) onSubmit"
+          ],
+          "return_type": null
+        },
+        {
+          "name": "_buildQuestion",
+          "description": "Builds the UI for a single question, including the question text and the radio buttons for the options.",
+          "parameters": [
+            "Question question"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildOption",
+          "description": "Builds the UI for a single option in a question, including the radio button and the option text.",
+          "parameters": [
+            "String questionId",
+            "String option"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_handleSubmit",
+          "description": "Handles the submission of the quiz, setting the _isSubmitted state to true and calling the onSubmit callback with the user's answers.",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "../../models/quiz.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/widgets/responsive_layout.dart",
+      "description": "This file provides a set of responsive layout widgets for building Flutter applications that adapt to different screen sizes.",
+      "class_diagram": "@startuml\nclass ResponsiveLayout {\n  +Widget mobile\n  +Widget? tablet\n  +Widget? desktop\n  +static bool isMobile(BuildContext)\n  +static bool isTablet(BuildContext)\n  +static bool isDesktop(BuildContext)\n  +Widget build(BuildContext)\n}\n\nclass ResponsiveGridView {\n  +List<Widget> children\n  +double spacing\n  +double runSpacing\n  +EdgeInsets padding\n  +Widget build(BuildContext)\n}\n\nclass ResponsiveContainer {\n  +Widget child\n  +double maxWidth\n  +EdgeInsets padding\n  +Widget build(BuildContext)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "ResponsiveLayout.isMobile",
+          "description": "Checks if the current device is a mobile device based on the screen width.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "bool"
+        },
+        {
+          "name": "ResponsiveLayout.isTablet",
+          "description": "Checks if the current device is a tablet device based on the screen width.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "bool"
+        },
+        {
+          "name": "ResponsiveLayout.isDesktop",
+          "description": "Checks if the current device is a desktop device based on the screen width.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "bool"
+        },
+        {
+          "name": "ResponsiveLayout.build",
+          "description": "Builds the appropriate layout (mobile, tablet, or desktop) based on the screen size.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "ResponsiveGridView.build",
+          "description": "Builds a responsive grid layout with the provided children widgets.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "ResponsiveContainer.build",
+          "description": "Builds a responsive container with the provided child widget, maximum width, and padding.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/widgets/student_progress_widget.dart",
+      "description": "Auto-generated entry for lib/ui/widgets/student_progress_widget.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/utils/const/const.dart",
+      "description": "This Dart file defines various constants used throughout the application, including onboarding information, file paths, contact details, and a comprehensive list of languages supported.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/utils/date/date_util.dart",
+      "description": "Auto-generated entry for lib/utils/date/date_util.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/utils/contact/contact_util.dart",
+      "description": "This Dart file defines a utility class `ContactUtil` that provides functionality for launching WhatsApp conversations and email clients.",
+      "class_diagram": "@startuml\nclass ContactUtil {\n  +static Future<void> launchWhatsApp(String phone, {String text = ''})\n  +static Future<void> launchEmail(String email)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "launchWhatsApp",
+          "description": "Launches a WhatsApp conversation with the provided phone number and optional text message.",
+          "parameters": [
+            "phone",
+            "text"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "launchEmail",
+          "description": "Launches the default email client with the provided email address.",
+          "parameters": [
+            "email"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "dart:async",
+        "dart:io",
+        "package:url_launcher/url_launcher.dart"
+      ]
+    },
+    {
+      "name": "lib/utils/exceptions/api_exception.dart",
+      "description": "Defines an exception class for handling API-related errors.",
+      "class_diagram": "@startuml\nclass APIException {\n  +dynamic message\n  +toString(): String\n}\nException <|-- APIException\n@enduml",
+      "methods": [
+        {
+          "name": "APIException",
+          "description": "Constructor for the APIException class.",
+          "parameters": [
+            "message"
+          ],
+          "return_type": null
+        },
+        {
+          "name": "toString",
+          "description": "Overrides the default toString() method to provide a string representation of the exception.",
+          "parameters": [],
+          "return_type": "String"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "lib/utils/extensions/color_extension.dart",
+      "description": "This Dart file provides an extension on the Color class to simplify the creation of colors from hexadecimal strings.",
+      "class_diagram": "@startuml\nclass Color {\n  +fromHex(String hexColorString): Color\n  +intFromHex(String hexColorString): int\n}\n@enduml",
+      "methods": [
+        {
+          "name": "fromHex",
+          "description": "Converts a hexadecimal color string (e.g., '#FF0000' for red) to a Color object.",
+          "parameters": [
+            "hexColorString"
+          ],
+          "return_type": "Color"
+        },
+        {
+          "name": "intFromHex",
+          "description": "Converts a hexadecimal color string (e.g., '#FF0000' for red) to an integer representation of the color.",
+          "parameters": [
+            "hexColorString"
+          ],
+          "return_type": "int"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/utils/flavors/flavors.dart",
+      "description": "Stores the current app flavor (development or production) and provides utility methods to check the current flavor.",
+      "class_diagram": "@startuml\nclass Flavors {\n  - _instance: Flavors\n  + flavor: Flavor\n  + isDev(): bool\n  + isProd(): bool\n  - Flavors()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "Flavors",
+          "description": "Factory constructor that returns the singleton instance of the Flavors class.",
+          "parameters": null,
+          "return_type": "Flavors"
+        },
+        {
+          "name": "isDev",
+          "description": "Checks if the current app flavor is development.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "isProd",
+          "description": "Checks if the current app flavor is production.",
+          "parameters": null,
+          "return_type": "bool"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/models/enums/flavor.dart"
+      ]
+    },
+    {
+      "name": "lib/utils/json/json_util.dart",
+      "description": "The JsonUtil class provides utility functions for working with JSON data in Dart. It includes methods for formatting JSON maps, converting JSON to Dart objects, and formatting lists of JSON maps.",
+      "class_diagram": "@startuml\n  class JsonUtil {\n    + static Map<String, dynamic> formatMap(Map<dynamic, dynamic> json)\n    + static T? fromJsonOrNull<T>(dynamic json, T Function(Map<String, dynamic>) fromJson)\n    + static List<T> formatListMap<T>(List<dynamic> json, T Function(Map<String, dynamic>) fromJson)\n  }\n  @enduml",
+      "methods": [
+        {
+          "name": "formatMap",
+          "description": "Formats a map of dynamic keys and values to a map of String keys and dynamic values, removing any null keys.",
+          "parameters": [
+            "Map<dynamic, dynamic> json"
+          ],
+          "return_type": "Map<String, dynamic>"
+        },
+        {
+          "name": "fromJsonOrNull",
+          "description": "Converts a dynamic JSON value to an instance of type T, or returns null if the JSON is null or not a map.",
+          "parameters": [
+            "dynamic json",
+            "T Function(Map<String, dynamic>) fromJson"
+          ],
+          "return_type": "T?"
+        },
+        {
+          "name": "formatListMap",
+          "description": "Formats a list of dynamic JSON maps to a list of type T, using the provided fromJson function to convert each map.",
+          "parameters": [
+            "List<dynamic> json",
+            "T Function(Map<String, dynamic>) fromJson"
+          ],
+          "return_type": "List<T>"
+        }
+      ],
+      "dependencies": [
+        "dart:core",
+        "dart:collection"
+      ]
+    },
+    {
+      "name": "lib/ui/widgets/loading_indicator.dart",
+      "description": "The LoadingIndicator widget is a reusable Flutter widget that displays a circular progress indicator and an optional message when the app is loading data or performing a long-running operation.",
+      "class_diagram": "@startuml\nclass LoadingIndicator {\n  -String? message\n  +Widget build(BuildContext)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the widget tree for the LoadingIndicator, including the CircularProgressIndicator and an optional message text.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/home/home_viewmodel.dart",
+      "description": "The HomeViewModel class is responsible for managing the state and functionality of the home screen in the Gyde app. It provides methods for incrementing a counter, showing a custom dialog, and displaying a custom bottom sheet.",
+      "class_diagram": "@startuml\nclass HomeViewModel {\n  - _dialogService : DialogService\n  - _bottomSheetService : BottomSheetService\n  + counterLabel : String\n  + incrementCounter() : void\n  + showDialog() : void\n  + showBottomSheet() : void\n}\n\nHomeViewModel --|> BaseViewModel\n@enduml",
+      "methods": [
+        {
+          "name": "incrementCounter",
+          "description": "Increments the counter value and rebuilds the UI.",
+          "parameters": [],
+          "return_type": "void"
+        },
+        {
+          "name": "showDialog",
+          "description": "Displays a custom dialog with a title and description.",
+          "parameters": [],
+          "return_type": "void"
+        },
+        {
+          "name": "showBottomSheet",
+          "description": "Displays a custom bottom sheet with a title and description.",
+          "parameters": [],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/app/app.bottomsheets.dart",
+        "gyde_app/app/app.dialogs.dart",
+        "gyde_app/app/app.locator.dart",
+        "stacked/stacked.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/models/assignment.dart",
+      "description": "This Dart file defines the `Assignment` class, which represents an assignment with various properties such as ID, title, description, due date, course ID, status, grade, submission, and feedback. The class provides methods for creating, copying, and serializing/deserializing assignments.",
+      "class_diagram": "@startuml\nclass Assignment {\n  +String id\n  +String title\n  +String description\n  +DateTime dueDate\n  +String courseId\n  +String status\n  +double? grade\n  +String? submission\n  +String? feedback\n  +Assignment copyWith()\n  +Map<String, dynamic> toJson()\n  +bool isOverdue()\n  +bool isSubmitted()\n  +bool isGraded()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "copyWith",
+          "description": "Creates a new `Assignment` instance with the specified changes, leaving other properties unchanged.",
+          "parameters": [
+            "id",
+            "title",
+            "description",
+            "dueDate",
+            "courseId",
+            "status",
+            "grade",
+            "submission",
+            "feedback"
+          ],
+          "return_type": "Assignment"
+        },
+        {
+          "name": "toJson",
+          "description": "Serializes the `Assignment` instance to a JSON map.",
+          "parameters": null,
+          "return_type": "Map<String, dynamic>"
+        },
+        {
+          "name": "fromJson",
+          "description": "Deserializes an `Assignment` instance from a JSON map.",
+          "parameters": [
+            "json"
+          ],
+          "return_type": "Assignment"
+        },
+        {
+          "name": "isOverdue",
+          "description": "Checks if the assignment is overdue based on the current date and the due date.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "isSubmitted",
+          "description": "Checks if the assignment has been submitted based on the status.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "isGraded",
+          "description": "Checks if the assignment has been graded based on the status.",
+          "parameters": null,
+          "return_type": "bool"
+        }
+      ],
+      "dependencies": [
+        "dart:core",
+        "dart:convert"
+      ]
+    },
+    {
+      "name": "lib/features/course/course_view.dart",
+      "description": "Auto-generated entry for lib/features/course/course_view.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/ui/widgets/error_display.dart",
+      "description": "This Dart file defines a custom `ErrorDisplay` widget that displays an error message and an optional retry button.",
+      "class_diagram": "@startuml\nclass ErrorDisplay {\n  -String error\n  -VoidCallback? onRetry\n  +build(context): Widget\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the visual representation of the `ErrorDisplay` widget.",
+          "parameters": [
+            "context"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/models/enums/flavor.dart",
+      "description": "This Dart file defines an enumeration called `Flavor` that represents the different flavors or environments of the application, such as `production` and `development`.",
+      "class_diagram": "@startuml\nenum Flavor {\n  production\n  development\n}\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/features/assignment/assignment_view.dart",
+      "description": "The AssignmentView class is the main UI component for the assignment feature. It displays a list of assignments, allows creating, editing, and deleting assignments, and handles state management using the AssignmentViewModel.",
+      "class_diagram": "@startuml\nclass AssignmentView extends StackedView<AssignmentViewModel> {\n  +builder(BuildContext, AssignmentViewModel, Widget?)\n  +viewModelBuilder(BuildContext): AssignmentViewModel\n  +onViewModelReady(AssignmentViewModel)\n  -_showCreateAssignmentDialog(BuildContext, AssignmentViewModel)\n  -_showEditAssignmentDialog(BuildContext, AssignmentViewModel, Assignment)\n}\n\nclass AssignmentViewModel {\n  +assignments: List<Assignment>\n  +isBusy: bool\n  +hasError: bool\n  +error: Object\n  +initialize()\n  +setCurrentAssignment(Assignment)\n  +deleteAssignment(String)\n}\n\nclass AssignmentCard extends StatelessWidget {\n  +assignment: Assignment\n  +onTap: VoidCallback\n  +onDelete: VoidCallback\n  +onEdit: VoidCallback\n  +build(BuildContext): Widget\n}\n\nclass Assignment {\n  +id: String\n  +title: String\n  +description: String\n}\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the UI for the AssignmentView based on the state of the AssignmentViewModel.",
+          "parameters": [
+            "BuildContext",
+            "AssignmentViewModel",
+            "Widget?"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Provides an instance of the AssignmentViewModel to the StackedView.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "AssignmentViewModel"
+        },
+        {
+          "name": "onViewModelReady",
+          "description": "Initializes the AssignmentViewModel when the AssignmentView is ready.",
+          "parameters": [
+            "AssignmentViewModel"
+          ],
+          "return_type": null
+        },
+        {
+          "name": "_showCreateAssignmentDialog",
+          "description": "Displays a dialog for creating a new assignment.",
+          "parameters": [
+            "BuildContext",
+            "AssignmentViewModel"
+          ],
+          "return_type": null
+        },
+        {
+          "name": "_showEditAssignmentDialog",
+          "description": "Displays a dialog for editing an existing assignment.",
+          "parameters": [
+            "BuildContext",
+            "AssignmentViewModel",
+            "Assignment"
+          ],
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:stacked/stacked.dart",
+        "./assignment_viewmodel.dart",
+        "../../models/assignment.dart",
+        "../../ui/widgets/loading_indicator.dart",
+        "../../ui/widgets/error_display.dart"
+      ]
+    },
+    {
+      "name": "lib/features/admin/admin_viewmodel.dart",
+      "description": "The AdminViewModel class is the view model for the admin-related functionality in the application. It handles the loading, filtering, and management of user data, as well as the configuration of the system settings.",
+      "class_diagram": "@startuml\nclass AdminViewModel {\n  - _userService: UserService\n  - _analyticsService: AnalyticsService\n  - _users: List<User>\n  - _filteredUsers: List<User>\n  - _selectedUserRole: String\n  - _systemConfig: Map<String, dynamic>\n  - _newUserEmail: String\n  - _newUserRole: String\n  \n  + get users(): List<User>\n  + get filteredUsers(): List<User>\n  + get selectedUserRole(): String\n  + get systemConfig(): Map<String, dynamic>\n  + get newUserRole(): String\n  \n  + initialize()\n  + _loadUsers()\n  + _loadSystemConfig()\n  + searchUsers(String)\n  + filterByRole(String)\n  + setNewUserEmail(String)\n  + setNewUserRole(String)\n  + addUser()\n  + updateUser(User)\n  + deleteUser(String)\n  + updateUserRole(String, String)\n  + updateSystemConfig(String, dynamic)\n}\n\nclass BaseViewModel {\n  + setBusy(bool)\n  + setError(dynamic)\n  + notifyListeners()\n}\n\nAdminViewModel -up-|> BaseViewModel\n@enduml",
+      "methods": [
+        {
+          "name": "initialize",
+          "description": "Initializes the view model by loading the user data and system configuration.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "_loadUsers",
+          "description": "Loads the list of users from the UserService and stores them in the _users and _filteredUsers properties.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "_loadSystemConfig",
+          "description": "Loads the system configuration and stores it in the _systemConfig property.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "searchUsers",
+          "description": "Filters the list of users based on the provided search query.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "filterByRole",
+          "description": "Filters the list of users based on the selected user role.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setNewUserEmail",
+          "description": "Sets the email for a new user.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setNewUserRole",
+          "description": "Sets the role for a new user.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "addUser",
+          "description": "Adds a new user to the system.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateUser",
+          "description": "Updates an existing user in the system.",
+          "parameters": [
+            "User"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteUser",
+          "description": "Deletes a user from the system.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateUserRole",
+          "description": "Updates the role of an existing user.",
+          "parameters": [
+            "String",
+            "String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateSystemConfig",
+          "description": "Updates a specific configuration setting in the system.",
+          "parameters": [
+            "String",
+            "dynamic"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart",
+        "../../services/user_service.dart",
+        "../../services/analytics_service.dart",
+        "../../app/app.locator.dart",
+        "../../models/user.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/startup/startup_view.dart",
+      "description": "Auto-generated entry for lib/ui/views/startup/startup_view.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/features/auth/login_view.dart",
+      "description": "Auto-generated entry for lib/features/auth/login_view.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/app/app.router.dart",
+      "description": "This Dart file is the generated code for the app's router configuration, created using the Stacked package. It defines the app's navigation routes, including the HomeView and StartupView, and provides methods to navigate between these views.",
+      "class_diagram": "@startuml\n'classes\nclass Routes {\n  +static const homeView: String\n  +static const startupView: String\n  +static const all: Set<String>\n}\n\nclass StackedRouter {\n  +List<RouteDef> get routes\n  +Map<Type, StackedRouteFactory> get pagesMap\n}\n\nclass NavigatorStateExtension {\n  +Future<dynamic> navigateToHomeView()\n  +Future<dynamic> navigateToStartupView()\n  +Future<dynamic> replaceWithHomeView()\n  +Future<dynamic> replaceWithStartupView()\n}\n\n'relationships\nRoutes --> StackedRouter\nStackedRouter --> NavigatorStateExtension\n@enduml",
+      "methods": [
+        {
+          "name": "navigateToHomeView",
+          "description": "Navigates to the HomeView route.",
+          "parameters": [
+            "int?",
+            "bool",
+            "Map<String, String>?",
+            "Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?"
+          ],
+          "return_type": "Future<dynamic>"
+        },
+        {
+          "name": "navigateToStartupView",
+          "description": "Navigates to the StartupView route.",
+          "parameters": [
+            "int?",
+            "bool",
+            "Map<String, String>?",
+            "Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?"
+          ],
+          "return_type": "Future<dynamic>"
+        },
+        {
+          "name": "replaceWithHomeView",
+          "description": "Replaces the current route with the HomeView route.",
+          "parameters": [
+            "int?",
+            "bool",
+            "Map<String, String>?",
+            "Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?"
+          ],
+          "return_type": "Future<dynamic>"
+        },
+        {
+          "name": "replaceWithStartupView",
+          "description": "Replaces the current route with the StartupView route.",
+          "parameters": [
+            "int?",
+            "bool",
+            "Map<String, String>?",
+            "Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?"
+          ],
+          "return_type": "Future<dynamic>"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "gyde_app/ui/views/home/home_view.dart",
+        "gyde_app/ui/views/startup/startup_view.dart",
+        "stacked/stacked.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/features/assignment/assignment_viewmodel.dart",
+      "description": "This Dart file contains the AssignmentViewModel class, which is responsible for managing the state and functionality related to assignments in the application.",
+      "class_diagram": "@startuml\nclass AssignmentViewModel {\n  - _assignmentService: AssignmentService\n  - _assignments: List<Assignment>\n  - _currentAssignment: Assignment?\n  + get assignments: List<Assignment>\n  + get currentAssignment: Assignment?\n  + initialize(): Future<void>\n  + createAssignment(Assignment assignment): Future<void>\n  + submitAssignment(String assignmentId, String submission): Future<void>\n  + gradeAssignment(String assignmentId, double grade, String feedback): Future<void>\n  + setCurrentAssignment(Assignment assignment): void\n  + deleteAssignment(String assignmentId): Future<void>\n  + updateAssignment(Assignment assignment): Future<void>\n}\n@enduml",
+      "methods": [
+        {
+          "name": "initialize",
+          "description": "Initializes the view model by fetching the list of assignments from the AssignmentService.",
+          "parameters": [],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "createAssignment",
+          "description": "Creates a new assignment by calling the createAssignment method in the AssignmentService, and then updates the list of assignments.",
+          "parameters": [
+            "Assignment"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "submitAssignment",
+          "description": "Submits an assignment by calling the submitAssignment method in the AssignmentService, and then refreshes the list of assignments.",
+          "parameters": [
+            "String",
+            "String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "gradeAssignment",
+          "description": "Grades an assignment by calling the gradeAssignment method in the AssignmentService, and then refreshes the list of assignments.",
+          "parameters": [
+            "String",
+            "double",
+            "String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "setCurrentAssignment",
+          "description": "Sets the current assignment in the view model, which can be used to display details of the selected assignment.",
+          "parameters": [
+            "Assignment"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "deleteAssignment",
+          "description": "Deletes an assignment by calling the deleteAssignment method in the AssignmentService, and then updates the list of assignments.",
+          "parameters": [
+            "String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateAssignment",
+          "description": "Updates an existing assignment by calling the updateAssignment method in the AssignmentService, and then updates the list of assignments.",
+          "parameters": [
+            "Assignment"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart",
+        "../../models/assignment.dart",
+        "../../services/assignment_service.dart",
+        "../../app/app.locator.dart"
+      ]
+    },
+    {
+      "name": "lib/features/auth/auth_viewmodel.dart",
+      "description": "The AuthViewModel class provides the core functionality for the authentication-related features of the application, including login, registration, and password reset.",
+      "class_diagram": "@startuml\nclass AuthViewModel extends BaseViewModel {\n  -_authService: AuthService\n  -_userService: UserService\n  -_email: String\n  -_password: String\n  -_confirmPassword: String\n  -_selectedRole: String\n  -_rememberMe: bool\n  +selectedRole: String\n  +rememberMe: bool\n  +setEmail(email: String): void\n  +setPassword(password: String): void\n  +setConfirmPassword(confirmPassword: String): void\n  +setRole(role: String?): void\n  +setRememberMe(value: bool): void\n  +login(): Future<void>\n  +register(): Future<void>\n  +resetPassword(): Future<void>\n  +navigateToLogin(): void\n  +navigateToRegister(): void\n  +navigateToForgotPassword(): void\n}\n@enduml",
+      "methods": [
+        {
+          "name": "setEmail",
+          "description": "Sets the email address used for authentication.",
+          "parameters": [
+            "email: String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setPassword",
+          "description": "Sets the password used for authentication.",
+          "parameters": [
+            "password: String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setConfirmPassword",
+          "description": "Sets the confirmed password used for registration.",
+          "parameters": [
+            "confirmPassword: String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setRole",
+          "description": "Sets the selected role for registration.",
+          "parameters": [
+            "role: String?"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setRememberMe",
+          "description": "Sets the remember me option for login.",
+          "parameters": [
+            "value: bool"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "login",
+          "description": "Handles the login process, including user authentication and navigation to the appropriate dashboard based on the user's role.",
+          "parameters": [],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "register",
+          "description": "Handles the registration process, including user registration and password confirmation.",
+          "parameters": [],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "resetPassword",
+          "description": "Handles the password reset process, allowing the user to reset their password.",
+          "parameters": [],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "navigateToLogin",
+          "description": "Navigates the user to the login view.",
+          "parameters": [],
+          "return_type": "void"
+        },
+        {
+          "name": "navigateToRegister",
+          "description": "Navigates the user to the registration view.",
+          "parameters": [],
+          "return_type": "void"
+        },
+        {
+          "name": "navigateToForgotPassword",
+          "description": "Navigates the user to the forgot password view.",
+          "parameters": [],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart",
+        "lib/services/auth_service.dart",
+        "lib/app/app.locator.dart",
+        "lib/app/app.router.dart",
+        "lib/services/user_service.dart"
+      ]
+    },
+    {
+      "name": "lib/features/admin/admin_repository.dart",
+      "description": "This Dart file contains the `AdminRepository` class, which provides a set of APIs for managing administrative tasks in a system.",
+      "class_diagram": "@startuml\nclass AdminRepository {\n  +Future<Map<String, dynamic>> getSystemMetrics()\n  +Future<Map<String, dynamic>> getSystemConfig()\n  +Future<void> updateSystemConfig(Map<String, dynamic> config)\n  +Future<List<Map<String, dynamic>>> getAuditLogs()\n  +Future<Map<String, dynamic>> getAnalyticsData(DateTime startDate, DateTime endDate)\n  +Future<List<Map<String, dynamic>>> getSystemAlerts()\n  +Future<void> performSystemMaintenance()\n  +Future<void> backupSystem()\n  +Future<Map<String, dynamic>> getRolePermissions(String role)\n  +Future<void> updateRolePermissions(String role, Map<String, bool> permissions)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "getSystemMetrics",
+          "description": "Retrieves the current system metrics, such as total users, active users, storage usage, bandwidth usage, error rate, and response time.",
+          "parameters": null,
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getSystemConfig",
+          "description": "Retrieves the current system configuration, such as registration status, maintenance mode, file size limits, allowed file types, backup frequency, and retention days.",
+          "parameters": null,
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "updateSystemConfig",
+          "description": "Updates the system configuration with the provided configuration map.",
+          "parameters": [
+            "Map<String, dynamic> config"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getAuditLogs",
+          "description": "Retrieves the system audit logs, which include information about user actions and system events.",
+          "parameters": null,
+          "return_type": "Future<List<Map<String, dynamic>>>"
+        },
+        {
+          "name": "getAnalyticsData",
+          "description": "Retrieves the system analytics data, including user growth, course engagement, and system usage statistics.",
+          "parameters": [
+            "DateTime startDate",
+            "DateTime endDate"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "getSystemAlerts",
+          "description": "Retrieves the current system alerts, such as warnings and informational messages.",
+          "parameters": null,
+          "return_type": "Future<List<Map<String, dynamic>>>"
+        },
+        {
+          "name": "performSystemMaintenance",
+          "description": "Performs system maintenance tasks, such as updating software or cleaning up data.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "backupSystem",
+          "description": "Performs a system backup, ensuring that the data is preserved for future recovery.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getRolePermissions",
+          "description": "Retrieves the permissions associated with a specific user role, such as the ability to create courses, delete users, modify the system, or view analytics.",
+          "parameters": [
+            "String role"
+          ],
+          "return_type": "Future<Map<String, dynamic>>"
+        },
+        {
+          "name": "updateRolePermissions",
+          "description": "Updates the permissions associated with a specific user role.",
+          "parameters": [
+            "String role",
+            "Map<String, bool> permissions"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "../../models/user.dart"
+      ]
+    },
+    {
+      "name": "lib/features/auth/register_view.dart",
+      "description": "Auto-generated entry for lib/features/auth/register_view.dart (analysis failed)",
+      "class_diagram": "@startuml\nclass Auto\n@enduml",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/features/admin/user_management_view.dart",
+      "description": "This file contains the implementation of the `UserManagementView` class, which is a Flutter widget that displays the user management interface for an admin. It allows the admin to search, filter, add, edit, and delete users.",
+      "class_diagram": "@startuml\nclass UserManagementView extends StackedView<AdminViewModel> {\n    + builder(BuildContext context, AdminViewModel viewModel, Widget? child): Widget\n    + _showAddUserDialog(BuildContext context, AdminViewModel viewModel): void\n    + _showEditUserDialog(BuildContext context, AdminViewModel viewModel, User user): void\n    + _showDeleteConfirmation(BuildContext context, AdminViewModel viewModel, User user): void\n    + viewModelBuilder(BuildContext context): AdminViewModel\n    + onViewModelReady(AdminViewModel viewModel): void\n}\n\nclass UserListTile extends StatelessWidget {\n    - user: User\n    - onEdit: VoidCallback\n    - onDelete: VoidCallback\n    + build(BuildContext context): Widget\n}\n\nAdminViewModel <-- UserManagementView\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the UI for the `UserManagementView` based on the state of the `AdminViewModel`.",
+          "parameters": [
+            "BuildContext context",
+            "AdminViewModel viewModel",
+            "Widget? child"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_showAddUserDialog",
+          "description": "Displays a dialog for adding a new user.",
+          "parameters": [
+            "BuildContext context",
+            "AdminViewModel viewModel"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "_showEditUserDialog",
+          "description": "Displays a dialog for editing an existing user.",
+          "parameters": [
+            "BuildContext context",
+            "AdminViewModel viewModel",
+            "User user"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "_showDeleteConfirmation",
+          "description": "Displays a dialog for deleting an existing user.",
+          "parameters": [
+            "BuildContext context",
+            "AdminViewModel viewModel",
+            "User user"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Provides an instance of the `AdminViewModel` for the `UserManagementView`.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "AdminViewModel"
+        },
+        {
+          "name": "onViewModelReady",
+          "description": "Initializes the `AdminViewModel` when the `UserManagementView` is ready.",
+          "parameters": [
+            "AdminViewModel viewModel"
+          ],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "stacked/stacked.dart",
+        "../admin/admin_viewmodel.dart",
+        "../../models/user.dart",
+        "../../ui/widgets/loading_indicator.dart",
+        "../../ui/widgets/error_display.dart"
+      ]
+    },
+    {
+      "name": "lib/features/admin/system_config_view.dart",
+      "description": "This Dart file contains the `SystemConfigView` class, which is the main widget for the system configuration page in the admin section of the application. It provides an interface for administrators to manage various system settings, including general, security, notification, and accessibility options.",
+      "class_diagram": "@startuml\nclass SystemConfigView extends StackedView<AdminViewModel> {\n  +Widget builder(BuildContext, AdminViewModel, Widget?)\n  +Widget _buildGeneralSettings(AdminViewModel)\n  +Widget _buildSecuritySettings(AdminViewModel)\n  +Widget _buildNotificationSettings(AdminViewModel)\n  +Widget _buildAccessibilitySettings(AdminViewModel)\n  +AdminViewModel viewModelBuilder(BuildContext)\n  +void onViewModelReady(AdminViewModel)\n}\n\nclass AdminViewModel {\n  +Map<String, dynamic> systemConfig\n  +bool isBusy\n  +dynamic error\n  +void initialize()\n  +void updateSystemConfig(String, dynamic)\n}\n\nSystemConfigView --> AdminViewModel : uses\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the main UI for the `SystemConfigView` widget, handling loading, error, and success states.",
+          "parameters": [
+            "BuildContext",
+            "AdminViewModel",
+            "Widget?"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildGeneralSettings",
+          "description": "Builds the UI for the general settings section of the system configuration.",
+          "parameters": [
+            "AdminViewModel"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildSecuritySettings",
+          "description": "Builds the UI for the security settings section of the system configuration.",
+          "parameters": [
+            "AdminViewModel"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildNotificationSettings",
+          "description": "Builds the UI for the notification settings section of the system configuration.",
+          "parameters": [
+            "AdminViewModel"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "_buildAccessibilitySettings",
+          "description": "Builds the UI for the accessibility settings section of the system configuration.",
+          "parameters": [
+            "AdminViewModel"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Provides an instance of the `AdminViewModel` for the `SystemConfigView`.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "AdminViewModel"
+        },
+        {
+          "name": "onViewModelReady",
+          "description": "Initializes the `AdminViewModel` when the `SystemConfigView` is ready.",
+          "parameters": [
+            "AdminViewModel"
+          ],
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:stacked/stacked.dart",
+        "lib/features/admin/admin_viewmodel.dart",
+        "lib/ui/widgets/loading_indicator.dart",
+        "lib/ui/widgets/error_display.dart"
       ]
     }
   ],
