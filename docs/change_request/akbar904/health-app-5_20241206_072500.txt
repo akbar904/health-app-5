@@ -1,0 +1,47 @@
+Please update the existing codebase to have comprehensive K-12 educational web application with the following specifications:
+Core Features:
+
+User Authentication System
+Student, teacher, and administrator roles
+Secure login/registration with email verification
+Password reset functionality
+Profile management
+Parent account linking to student accounts
+
+Learning Management Features:
+Interactive dashboard for each user role
+Course creation and management
+Assignment submission and grading system
+Progress tracking and reporting
+Digital resource library
+
+Student-Specific Features:
+Personal learning progress tracker
+Interactive quizzes and assessments
+Virtual classroom participation
+Assignment submission portal
+Study schedule/calendar
+
+Teacher-Specific Features:
+Class management tools
+Assignment creation and grading interface
+Student performance analytics
+Communication tools with students and parents
+Lesson planning and resource sharing
+
+Administrative Features:
+User management system
+School-wide analytics and reporting
+Curriculum management tools
+System configuration options
+Access control management
+
+
+Responsive, mobile-friendly interface
+Accessibility compliance for diverse learners
+Intuitive navigation suitable for K-12 users
+Age-appropriate UI/UX for different grade levels
+DONT USE ANY DEPDENCIES ON YOUR CHANGE
+
+
+DO USE MOCK DATA ION THE RE SERVICE PART INSTEAD OF UNIMPLEMENTED ERROR
