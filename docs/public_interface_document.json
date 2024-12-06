@@ -1,7 +1,7 @@
 {
   "package_name": "com.com.walturn.gyde_app",
-  "project_description": "A Flutter project using the Stacked architecture, featuring routing, dependency injection, and dialog/bottom sheet management.",
-  "architecture_overview": "The application follows the Stacked architecture with separate folders for app setup, features, UI components, and utilities. It uses Stacked for state management, routing, and dependency injection.",
+  "project_description": "The Gyde app is a feature-rich Flutter application that follows the Stacked architecture. It provides users with a suite of tools and functionalities, including home screen with counter and action buttons, a startup screen with navigation logic, and support for dialogs and bottom sheets. The app also integrates with Firebase for development and production environments, and includes various utility classes and extensions to simplify common tasks.",
+  "architecture_overview": "The Gyde app uses the Stacked architecture, which separates the application into distinct layers for UI, view models, and services. The app setup is defined in the app.dart file, which sets up routes, dependencies, bottom sheets, and dialogs. The app.bottomsheets.dart and app.dialogs.dart files manage the registration and setup of custom bottom sheets and dialogs, respectively. The app.locator.dart file is responsible for setting up the dependency injection using the Stacked ServiceLocator. The app.router.dart file handles the navigation and routing between different views of the application.",
   "files": [
     {
       "name": "lib/app/app.dart",
@@ -18,100 +18,858 @@
       ]
     },
     {
-      "name": "lib/features/app/app_view.dart",
-      "description": "Defines the root widget of the application. So this files can not be deleted at all.",
-      "class_diagram": "@startuml\nclass AppView\nclass _App\n@enduml",
-      "methods": [],
-      "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:stacked_services/stacked_services.dart"
-      ]
-    },
-    {
-      "name": "lib/features/home/home_view.dart",
-      "description": "The main home view of the application.",
-      "class_diagram": "@startuml\nclass HomeView\n@enduml",
-      "methods": [],
-      "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:gap/gap.dart"
-      ]
-    },
-    {
-      "name": "lib/features/home/home_viewmodel.dart",
-      "description": "ViewModel for the HomeView, manages the state and business logic.",
-      "class_diagram": "@startuml\nclass HomeViewModel\n@enduml",
+      "name": "lib/config/development/firebase_options_development.dart",
+      "description": "This Dart file is responsible for providing the Firebase configuration options for the development environment of the application. It defines the necessary credentials and settings required to interact with the Firebase services, such as the Firebase Realtime Database, Firebase Authentication, and Firebase Cloud Messaging.",
+      "class_diagram": "",
       "methods": [
         {
-          "name": "incrementCounter",
-          "description": "Increments the counter value",
+          "name": "FirebaseOptions",
+          "description": "The constructor of the FirebaseOptions class, which is used to create an instance of the Firebase options with the necessary configuration values.",
+          "parameters": [
+            "apiKey",
+            "appId",
+            "messagingSenderId",
+            "projectId",
+            "storageBucket"
+          ],
+          "return_type": "FirebaseOptions"
+        }
+      ],
+      "dependencies": [
+        "package:firebase_core/firebase_core.dart"
+      ]
+    },
+    {
+      "name": "lib/app/app.bottomsheets.dart",
+      "description": "This file is responsible for setting up the bottom sheet UI in the Gyde app. It defines the different types of bottom sheets that can be displayed and provides a centralized setup function to register the custom bottom sheet builders.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "setupBottomSheetUi",
+          "description": "This method sets up the bottom sheet service with custom builders for each bottom sheet type. It is used to register the different bottom sheet UI components that can be displayed in the app.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/app/app.locator.dart",
+        "gyde_app/ui/bottom_sheets/notice/notice_sheet.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/services/analytic_service.dart",
+      "description": "The AnalyticService class is a wrapper around an analytics implementation, providing a consistent interface for managing and accessing analytics data within the application.",
+      "class_diagram": "@startuml\nclass AnalyticService {\n  + init(): Future<void>\n}\n\nInitializableDependency <|-- AnalyticService\n@enduml",
+      "methods": [
+        {
+          "name": "init",
+          "description": "Initializes the AnalyticService, preparing it for use within the application.",
           "parameters": [],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked_annotations.dart"
+      ]
+    },
+    {
+      "name": "lib/l10n/localizations_extension.dart",
+      "description": "This file provides an extension on the `BuildContext` class that makes it easier to access the current `AppLocalizations` instance, which is responsible for managing the application's localization and internationalization.",
+      "class_diagram": "@startuml\nclass BuildContext {\n}\n\nclass AppLocalizations {\n  + static of(BuildContext context): AppLocalizations\n}\n\nclass LocalizationsX {\n  + get localizations: AppLocalizations\n}\n\nBuildContext <|-- LocalizationsX\nAppLocalizations <-- LocalizationsX\n@enduml",
+      "methods": [
+        {
+          "name": "get localizations",
+          "description": "Retrieves the current `AppLocalizations` instance for the given `BuildContext`.",
+          "parameters": null,
+          "return_type": "AppLocalizations"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/widgets.dart",
+        "package:flutter_gen/gen_l10n/app_localizations.dart"
+      ]
+    },
+    {
+      "name": "lib/app/app.dialogs.dart",
+      "description": "This file is responsible for managing the dialog system in the Gyde app. It defines the available dialog types, sets up the dialog service, and registers custom dialog builders for each dialog type.",
+      "class_diagram": "@startuml\n\nclass DialogService {\n\n  +registerCustomDialogBuilders(builders: Map<DialogType, DialogBuilder>)\n\n}\n\nenum DialogType {\n\n  infoAlert\n\n}\n\ninterface DialogBuilder {\n\n  (context: BuildContext, request: DialogRequest, completer: DialogCompleter)\n\n}\n\nclass InfoAlertDialog {\n\n  +InfoAlertDialog(request: DialogRequest, completer: DialogCompleter)\n\n}\n\nDialogService -right-> DialogBuilder : registers\n\nDialogBuilder -right-> InfoAlertDialog : builds\n\n@enduml",
+      "methods": [
+        {
+          "name": "setupDialogUi",
+          "description": "Initializes the dialog service and registers the custom dialog builders for each dialog type.",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "gyde_app/app/app.locator.dart",
+        "gyde_app/ui/dialogs/info_alert/info_alert_dialog.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/app/app_viewmodel.dart",
+      "description": "The `AppViewModel` class is the view model for the main application in a Flutter app. It is responsible for managing the state and business logic of the overall application.",
+      "class_diagram": "@startuml\nclass AppViewModel extends BaseViewModel {\n}\n@enduml",
+      "methods": [
+        {
+          "name": "n/a",
+          "description": "The `AppViewModel` class does not define any public methods. It simply extends the `BaseViewModel` class from the `stacked` package, which provides basic view model functionality.",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/dialogs/info_alert/info_alert_dialog_model.dart",
+      "description": "This Dart file defines the `InfoAlertDialogModel` class, which is responsible for managing the state and behavior of an information alert dialog in a Flutter application.",
+      "class_diagram": "@startuml\nclass InfoAlertDialogModel extends BaseViewModel {\n}\n@enduml",
+      "methods": [
+        {
+          "name": "InfoAlertDialogModel",
+          "description": "The constructor for the `InfoAlertDialogModel` class.",
+          "parameters": null,
+          "return_type": null
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/home/home_view.dart",
+      "description": "The HomeView class is responsible for rendering the main home screen of the Gyde app. It provides a simple interface with a title, a button to increment a counter, and two buttons to show a dialog and a bottom sheet, respectively. The core functionality of this class is to serve as the UI layer for the home screen, allowing users to interact with the app's core features.",
+      "class_diagram": "@startuml\nclass HomeView {\n  + builder(BuildContext, HomeViewModel, Widget?): Widget\n  + viewModelBuilder(BuildContext): HomeViewModel\n}\n\nclass HomeViewModel {\n  + incrementCounter(): void\n  + showDialog(): void\n  + showBottomSheet(): void\n  + counterLabel: String\n}\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the UI for the home screen, including the title, counter button, and action buttons.",
+          "parameters": [
+            "BuildContext",
+            "HomeViewModel",
+            "Widget?"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Provides an instance of the HomeViewModel, which contains the logic and state for the home screen.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "HomeViewModel"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gap/gap.dart",
+        "package:gyde_app/ui/views/home/home_viewmodel.dart",
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/home/home_viewmodel.dart",
+      "description": "The HomeViewModel class is responsible for managing the state and behavior of the home screen in the Gyde application. Its primary purpose is to handle the counter functionality and provide interfaces to display a dialog and a bottom sheet.",
+      "class_diagram": "@startuml\nclass HomeViewModel {\n  -int _counter\n  +String get counterLabel\n  +void incrementCounter()\n  +void showDialog()\n  +void showBottomSheet()\n}\n\nHomeViewModel -* DialogService\nHomeViewModel -* BottomSheetService\n@enduml",
+      "methods": [
+        {
+          "name": "get counterLabel",
+          "description": "Returns the current value of the counter as a string.",
+          "parameters": null,
+          "return_type": "String"
+        },
+        {
+          "name": "incrementCounter",
+          "description": "Increments the internal counter value and rebuilds the UI.",
+          "parameters": null,
           "return_type": "void"
         },
         {
           "name": "showDialog",
-          "description": "Shows a custom dialog",
-          "parameters": [],
+          "description": "Displays a custom dialog with a title and description.",
+          "parameters": null,
           "return_type": "void"
         },
         {
           "name": "showBottomSheet",
-          "description": "Shows a custom bottom sheet",
-          "parameters": [],
+          "description": "Displays a custom bottom sheet with a title and description.",
+          "parameters": null,
           "return_type": "void"
         }
       ],
       "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:stacked_services/stacked_services.dart"
+        "gyde_app/app/app.bottomsheets.dart",
+        "gyde_app/app/app.dialogs.dart",
+        "gyde_app/app/app.locator.dart",
+        "stacked/stacked.dart",
+        "stacked_services/stacked_services.dart"
       ]
     },
     {
-      "name": "lib/features/startup/startup_view.dart",
-      "description": "The startup view shown when the app is first launched.",
-      "class_diagram": "@startuml\nclass StartupView\n@enduml",
-      "methods": [],
-      "dependencies": [
-        "package:stacked/stacked.dart",
-        "package:gap/gap.dart"
-      ]
-    },
-    {
-      "name": "lib/features/startup/startup_viewmodel.dart",
-      "description": "ViewModel for the StartupView, handles initialization logic.",
-      "class_diagram": "@startuml\nclass StartupViewModel\n@enduml",
+      "name": "lib/ui/views/startup/startup_viewmodel.dart",
+      "description": "This Dart file contains the `StartupViewModel` class, which is responsible for handling the startup logic and navigation of the Gyde app. It is part of the app's UI layer and works in conjunction with the `StartupView` to provide the initial user experience.",
+      "class_diagram": "@startuml\nclass StartupViewModel {\n  + runStartupLogic(): Future\n  - _navigationService: NavigationService\n}\n@enduml",
       "methods": [
         {
           "name": "runStartupLogic",
-          "description": "Runs the startup logic and navigates to the home view",
-          "parameters": [],
+          "description": "This method is responsible for executing the startup logic of the app. It performs a 3-second delay and then navigates the user to the home view of the app.",
+          "parameters": [
+            ""
+          ],
           "return_type": "Future"
         }
       ],
       "dependencies": [
+        "gyde_app/app/app.locator.dart",
+        "gyde_app/app/app.router.dart",
+        "stacked/stacked.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/app/app_view.dart",
+      "description": "The `AppView` class is the main entry point of the Flutter application. It is responsible for setting up the app's initial state, navigation, and global settings.",
+      "class_diagram": "@startuml\nclass AppView {\n  + build(context, viewModel): Widget\n}\n\nclass _App {\n  + build(context, viewModel): Widget\n}\n\nclass AppViewModel {\n}\n\nAppView *-- _App\n_App *-- AppViewModel\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the main app widget, including the initial navigation setup and global app settings.",
+          "parameters": [
+            "context",
+            "viewModel"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/app/app.router.dart",
+        "package:gyde_app/l10n/supported_locales.dart",
+        "package:gyde_app/observer/screen_observer.dart",
+        "package:gyde_app/ui/views/app/app_viewmodel.dart",
         "package:stacked/stacked.dart",
         "package:stacked_services/stacked_services.dart"
       ]
     },
     {
-      "name": "lib/main.dart",
-      "description": "The entry point of the application. Sets up the app and runs it.",
-      "class_diagram": "@startuml\nclass main\n@enduml",
+      "name": "lib/utils/date/date_util.dart",
+      "description": "The DateUtil class provides utility functions for parsing and converting date-related data, particularly when working with Dart's DateTime objects and Firestore Timestamp values.",
+      "class_diagram": "@startuml\nclass DateUtil {\n  + static DateTime? fromJson(dynamic value)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "fromJson",
+          "description": "Parses a dynamic value into a DateTime object. Supports Firestore Timestamp, String, and DateTime types.",
+          "parameters": [
+            "dynamic value"
+          ],
+          "return_type": "DateTime?"
+        }
+      ],
+      "dependencies": [
+        "cloud_firestore/cloud_firestore.dart"
+      ]
+    },
+    {
+      "name": "lib/utils/exceptions/api_exception.dart",
+      "description": "This file defines an exception class called `APIException` that is used to handle and propagate errors that occur during API service calls. It serves as a standardized way to manage and communicate API-related exceptions throughout the application.",
+      "class_diagram": "@startuml\nclass APIException implements Exception {\n  +dynamic message\n  +toString(): String\n}\n@enduml",
+      "methods": [
+        {
+          "name": "APIException",
+          "description": "Constructor for the `APIException` class. Allows setting a custom error message.",
+          "parameters": [
+            "dynamic message"
+          ],
+          "return_type": null
+        },
+        {
+          "name": "toString",
+          "description": "Provides a string representation of the `APIException` instance, including the runtime type and the error message.",
+          "parameters": null,
+          "return_type": "String"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "lib/utils/extensions/color_extension.dart",
+      "description": "This Dart file provides a custom extension on the Flutter `Color` class to simplify working with hexadecimal color values. It adds two static methods to convert a hexadecimal color string to a `Color` object and an integer value.",
+      "class_diagram": "@startuml\nclass Color {\n  +static fromHex(String hexColorString): Color\n  +static intFromHex(String hexColorString): int\n}\n@enduml",
+      "methods": [
+        {
+          "name": "fromHex",
+          "description": "Converts a hexadecimal color string (e.g., '#FF0000' for red) to a `Color` object.",
+          "parameters": [
+            "hexColorString"
+          ],
+          "return_type": "Color"
+        },
+        {
+          "name": "intFromHex",
+          "description": "Converts a hexadecimal color string (e.g., '#FF0000' for red) to an integer value representing the color.",
+          "parameters": [
+            "hexColorString"
+          ],
+          "return_type": "int"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/utils/flavors/flavors.dart",
+      "description": "The Flavors class in this file is responsible for managing the current application flavor (development or production) and providing utility methods to check the active flavor. This is a crucial component for enabling environment-specific configurations and feature toggles in the application.",
+      "class_diagram": "@startuml\nclass Flavors {\n  - Flavors._()\n  + factory Flavors()\n  + static Flavor? flavor\n  + static bool get isDev\n  + static bool get isProd\n}\n@enduml",
+      "methods": [
+        {
+          "name": "Flavors",
+          "description": "Private constructor for the Flavors class, enforcing a singleton pattern.",
+          "parameters": null,
+          "return_type": null
+        },
+        {
+          "name": "Flavors.factory",
+          "description": "Factory constructor that returns the singleton instance of the Flavors class.",
+          "parameters": null,
+          "return_type": "Flavors"
+        },
+        {
+          "name": "isDev",
+          "description": "Getter that returns true if the current flavor is development.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "isProd",
+          "description": "Getter that returns true if the current flavor is production.",
+          "parameters": null,
+          "return_type": "bool"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/models/enums/flavor.dart"
+      ]
+    },
+    {
+      "name": "lib/l10n/l10n.dart",
+      "description": "This file serves as a centralized export point for the application's localization management, providing access to the generated localization classes and supporting utilities.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": [
+        "package:flutter_gen/gen_l10n/app_localizations.dart",
+        "localizations_extension.dart",
+        "supported_locales.dart"
+      ]
+    },
+    {
+      "name": "lib/utils/json/json_util.dart",
+      "description": "The JsonUtil class provides utility functions for working with JSON data in a Dart/Flutter application. It offers a set of static methods to handle common JSON-related tasks, such as formatting maps, converting JSON to Dart objects, and handling nullable JSON data.",
+      "class_diagram": "@startuml\nclass JsonUtil {\n  {static} formatMap(Map<dynamic, dynamic>) : Map<String, dynamic>\n  {static} fromJsonOrNull(dynamic, Function(Map<String, dynamic>)) : T?\n  {static} formatListMap(List<dynamic>, Function(Map<String, dynamic>)) : List<T>\n}\n@enduml",
+      "methods": [
+        {
+          "name": "formatMap",
+          "description": "Converts a Map<dynamic, dynamic> to a Map<String, dynamic> by removing any null keys.",
+          "parameters": [
+            "Map<dynamic, dynamic>"
+          ],
+          "return_type": "Map<String, dynamic>"
+        },
+        {
+          "name": "fromJsonOrNull",
+          "description": "Converts a JSON object (Map<String, dynamic>) to a Dart object of type T, returning null if the input is null or not a valid JSON object.",
+          "parameters": [
+            "dynamic",
+            "Function(Map<String, dynamic>)"
+          ],
+          "return_type": "T?"
+        },
+        {
+          "name": "formatListMap",
+          "description": "Converts a List<dynamic> of JSON objects (List<Map<String, dynamic>>) to a List<T> of Dart objects, where T is the type returned by the provided fromJson function.",
+          "parameters": [
+            "List<dynamic>",
+            "Function(Map<String, dynamic>)"
+          ],
+          "return_type": "List<T>"
+        }
+      ],
+      "dependencies": [
+        "dart:core",
+        "dart:collection"
+      ]
+    },
+    {
+      "name": "lib/main/main_development.dart",
+      "description": "This Dart file is responsible for bootstrapping the development version of the Gyde app, which is a mobile application. It imports the necessary components, sets the app flavor to 'development', and initializes the app's bootstrap process.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "main()",
+          "description": "The entry point of the application. It calls the `bootstrap()` function, which sets up the app's initial state and renders the `AppView` widget.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/main/bootstrap.dart",
+        "gyde_app/models/enums/flavor.dart",
+        "gyde_app/ui/views/app/app_view.dart"
+      ]
+    },
+    {
+      "name": "lib/l10n/supported_locales.dart",
+      "description": "This Dart file is responsible for managing the supported locales and localization delegates for the application. It provides a centralized location to define and access the supported locales and related localization resources.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "localizationsDelegates",
+          "description": "Returns the list of localization delegates that provide the application's localized strings and other localization-related resources.",
+          "parameters": null,
+          "return_type": "List<LocalizationsDelegate<dynamic>>"
+        },
+        {
+          "name": "supportedLocales",
+          "description": "Returns the list of locales that the application supports for localization.",
+          "parameters": null,
+          "return_type": "List<Locale>"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/widgets.dart",
+        "package:flutter_gen/gen_l10n/app_localizations.dart"
+      ]
+    },
+    {
+      "name": "lib/models/enums/flavor.dart",
+      "description": "This Dart file defines an enum called `Flavor` that represents the different flavors or deployment environments of the application, such as `production` and `development`. This is a crucial part of the application's infrastructure, as it allows the codebase to be easily configured and deployed to different environments without the need for extensive conditional logic or environment-specific code.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/ui/bottom_sheets/notice/notice_sheet_model.dart",
+      "description": "The `NoticeSheetModel` class is responsible for managing the state and behavior of the notice bottom sheet UI component. It serves as the view model for the notice bottom sheet, handling user interactions and updating the UI accordingly.",
+      "class_diagram": "@startuml\nclass NoticeSheetModel {\n  + showNotice()\n  + hideNotice()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "showNotice",
+          "description": "Displays the notice bottom sheet to the user.",
+          "parameters": null,
+          "return_type": "void"
+        },
+        {
+          "name": "hideNotice",
+          "description": "Hides the notice bottom sheet from the user.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/common/app_colors.dart",
+      "description": "This Dart file defines a set of constant color values that are used throughout the application's user interface. It provides a centralized location for managing the application's color palette, ensuring consistent theming and branding across the entire UI.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/utils/const/const.dart",
+      "description": "This file contains a collection of constant values and configurations used across the application. It provides a centralized location to manage and access these constants, promoting consistency and maintainability throughout the codebase.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": []
+    },
+    {
+      "name": "lib/ui/common/ui_helpers.dart",
+      "description": "This Dart file provides a set of helper functions and widgets that simplify the creation of responsive UI layouts in a Flutter application. It serves as a centralized location for managing common UI patterns and spacing requirements, promoting code reuse and consistency across the application.",
+      "class_diagram": "@startuml\nclass UIHelpers {\n  + static const Widget horizontalSpaceTiny\n  + static const Widget horizontalSpaceSmall\n  + static const Widget horizontalSpaceMedium\n  + static const Widget horizontalSpaceLarge\n  + static const Widget verticalSpaceTiny\n  + static const Widget verticalSpaceSmall\n  + static const Widget verticalSpaceMedium\n  + static const Widget verticalSpaceLarge\n  + static const Widget verticalSpaceMassive\n  + static Widget spacedDivider\n  + static Widget verticalSpace(double height)\n  + static double screenWidth(BuildContext context)\n  + static double screenHeight(BuildContext context)\n  + static double screenHeightFraction(BuildContext context, {int dividedBy = 1, double offsetBy = 0, double max = 3000})\n  + static double screenWidthFraction(BuildContext context, {int dividedBy = 1, double offsetBy = 0, double max = 3000})\n  + static double halfScreenWidth(BuildContext context)\n  + static double thirdScreenWidth(BuildContext context)\n  + static double quarterScreenWidth(BuildContext context)\n  + static double getResponsiveHorizontalSpaceMedium(BuildContext context)\n  + static double getResponsiveSmallFontSize(BuildContext context)\n  + static double getResponsiveMediumFontSize(BuildContext context)\n  + static double getResponsiveLargeFontSize(BuildContext context)\n  + static double getResponsiveExtraLargeFontSize(BuildContext context)\n  + static double getResponsiveMassiveFontSize(BuildContext context)\n  + static double getResponsiveFontSize(BuildContext context, {double? fontSize, double? max})\n}\n@enduml",
+      "methods": [
+        {
+          "name": "horizontalSpaceTiny",
+          "description": "A constant Widget that represents a small horizontal space.",
+          "parameters": null,
+          "return_type": "Widget"
+        },
+        {
+          "name": "screenWidth",
+          "description": "Returns the width of the screen in the current context.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveFontSize",
+          "description": "Returns a responsive font size based on the screen width.",
+          "parameters": [
+            "BuildContext context",
+            "double? fontSize",
+            "double? max"
+          ],
+          "return_type": "double"
+        },
+        {
+          "name": "getResponsiveHorizontalSpaceMedium",
+          "description": "Returns a responsive horizontal space based on the screen width.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "double"
+        }
+      ],
+      "dependencies": [
+        "dart:math",
+        "package:flutter/material.dart"
+      ]
+    },
+    {
+      "name": "lib/main/main_production.dart",
+      "description": "This file is responsible for bootstrapping the production version of the Gyde mobile application. It sets up the app's entry point, initializes the necessary dependencies, and starts the app with the production flavor configuration.",
+      "class_diagram": "",
       "methods": [
         {
           "name": "main",
-          "description": "The main function that runs the app",
-          "parameters": [],
+          "description": "The main entry point of the application. It calls the bootstrap function with the production flavor and the AppView as the root widget.",
+          "parameters": null,
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/main/bootstrap.dart",
+        "gyde_app/models/enums/flavor.dart",
+        "gyde_app/ui/views/app/app_view.dart"
+      ]
+    },
+    {
+      "name": "lib/config/production/firebase_options_production.dart",
+      "description": "This Dart file is responsible for providing the necessary configuration details for the Firebase service in the production environment of the application. It defines the essential Firebase options, such as the API key, project ID, and other credentials, that are required for the application to securely interact with the Firebase platform.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "FirebaseOptions",
+          "description": "This is the constructor for the FirebaseOptions class, which is used to encapsulate the Firebase configuration settings.",
+          "parameters": [
+            "apiKey",
+            "appId",
+            "messagingSenderId",
+            "projectId",
+            "storageBucket"
+          ],
+          "return_type": "FirebaseOptions"
+        }
+      ],
+      "dependencies": [
+        "firebase_core",
+        "firebase_core_platform_interface"
+      ]
+    },
+    {
+      "name": "lib/app/app.locator.dart",
+      "description": "This file is responsible for setting up the dependency injection and locator service in a Stacked architecture-based Flutter application. It is a crucial part of the application's setup and initialization process, as it ensures the proper registration and resolution of dependencies throughout the app.",
+      "class_diagram": "",
+      "methods": [
+        {
+          "name": "setupLocator",
+          "description": "This method is responsible for registering the necessary dependencies and setting up the environment for the Stacked locator service. It registers the BottomSheetService, DialogService, and NavigationService as lazy singletons, making them available for injection throughout the application.",
+          "parameters": [
+            "environment",
+            "environmentFilter"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "stacked_services/src/bottom_sheet/bottom_sheet_service.dart",
+        "stacked_services/src/dialog/dialog_service.dart",
+        "stacked_services/src/navigation/navigation_service.dart",
+        "stacked_shared/stacked_shared.dart"
+      ]
+    },
+    {
+      "name": "lib/main/bootstrap.dart",
+      "description": "The 'bootstrap.dart' file is responsible for initializing and setting up the core application environment in the Gyde app. It is the entry point for the app, handling tasks like configuring the desired app flavor, initializing the service locator, setting up the dialog and bottom sheet UIs, and running the app widget.",
+      "class_diagram": "@startuml\nclass Bootstrap {\n  +static Future<void> bootstrap({\n    required FutureOr<Widget> Function() builder,\n    required Flavor flavor\n  })\n}\n@enduml",
+      "methods": [
+        {
+          "name": "bootstrap",
+          "description": "The main entry point for bootstrapping the Gyde app. It sets up the necessary infrastructure and environment before running the app widget.",
+          "parameters": [
+            "builder",
+            "flavor"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "dart:async",
+        "package:flutter/material.dart",
+        "package:flutter/services.dart",
+        "package:gyde_app/app/app.bottomsheets.dart",
+        "package:gyde_app/app/app.dialogs.dart",
+        "package:gyde_app/app/app.locator.dart",
+        "package:gyde_app/models/enums/flavor.dart",
+        "package:gyde_app/utils/flavors/flavors.dart"
+      ]
+    },
+    {
+      "name": "lib/utils/contact/contact_util.dart",
+      "description": "The ContactUtil class is responsible for providing utility functions to interact with communication channels like WhatsApp and email. It abstracts away the platform-specific implementations and provides a consistent API for launching communications from the app.",
+      "class_diagram": "@startuml\nclass ContactUtil {\n  +launchWhatsApp(phone: String, [text: String]): Future<void>\n  +launchEmail(email: String): Future<void>\n}\n@enduml",
+      "methods": [
+        {
+          "name": "launchWhatsApp",
+          "description": "Launches the WhatsApp application (or a web link if the app is not available) to send a message to the specified phone number, optionally with a pre-filled text.",
+          "parameters": [
+            "phone",
+            "text"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "launchEmail",
+          "description": "Launches the default email application to compose an email to the specified email address.",
+          "parameters": [
+            "email"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "dart:async",
+        "dart:io",
+        "package:url_launcher/url_launcher.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/bottom_sheets/notice/notice_sheet.dart",
+      "description": "The `NoticeSheet` class is responsible for rendering a bottom sheet UI component that displays a notice message to the user. It is part of the Gyde app's UI layer and is used to present important information or alerts to the user.",
+      "class_diagram": "@startuml\nclass NoticeSheet extends StackedView<NoticeSheetModel> {\n  +NoticeSheet({required completer, required request, super.key})\n  +Widget builder(BuildContext context, NoticeSheetModel viewModel, Widget? child)\n  +NoticeSheetModel viewModelBuilder(BuildContext context)\n}\n\nclass NoticeSheetModel {\n}\n\nNoticeSheet o-- NoticeSheetModel\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the UI for the `NoticeSheet` widget, which includes the notice title, description, and any necessary UI elements.",
+          "parameters": [
+            "BuildContext context",
+            "NoticeSheetModel viewModel",
+            "Widget? child"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Provides an instance of the `NoticeSheetModel` class, which is responsible for managing the state and logic associated with the notice sheet.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "NoticeSheetModel"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "gyde_app/ui/bottom_sheets/notice/notice_sheet_model.dart",
+        "gyde_app/ui/common/app_colors.dart",
+        "gyde_app/ui/common/ui_helpers.dart",
+        "stacked/stacked.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/views/startup/startup_view.dart",
+      "description": "The `StartupView` class is responsible for displaying the initial startup screen of the GydeApp application. It is the main entry point for the app and is responsible for setting up the initial application state and launching the core application logic.",
+      "class_diagram": "@startuml\nclass StartupView {\n  + builder(BuildContext, StartupViewModel, Widget?): Widget\n  + viewModelBuilder(BuildContext): StartupViewModel\n  + onViewModelReady(StartupViewModel): void\n}\n\nclass StartupViewModel {\n  + runStartupLogic(): void\n}\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the UI for the startup screen, displaying the app name and a loading indicator.",
+          "parameters": [
+            "BuildContext",
+            "StartupViewModel",
+            "Widget?"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Initializes the `StartupViewModel`, which contains the core startup logic for the application.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "StartupViewModel"
+        },
+        {
+          "name": "onViewModelReady",
+          "description": "Called when the `StartupViewModel` is ready, triggering the execution of the startup logic.",
+          "parameters": [
+            "StartupViewModel"
+          ],
           "return_type": "void"
         }
       ],
       "dependencies": [
         "package:flutter/material.dart",
-        "package:flutter/services.dart",
-        "package:my_app/app/app.bottomsheets.dart",
-        "package:my_app/app/app.dialogs.dart",
-        "package:my_app/app/app.locator.dart",
-        "package:my_app/features/app/app_view.dart"
+        "package:flutter/scheduler.dart",
+        "package:gap/gap.dart",
+        "package:gyde_app/ui/views/startup/startup_viewmodel.dart",
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/observer/screen_observer.dart",
+      "description": "The ScreenObserver is responsible for tracking the screen views of the application by observing the navigation events. It integrates with the AnalyticService to report the screen views, which is essential for analytics and user behavior analysis.",
+      "class_diagram": "@startuml\nclass ScreenObserver {\n  + didPush(Route<dynamic> route, Route<dynamic>? previousRoute)\n  + didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute})\n  + didPop(Route<dynamic> route, Route<dynamic>? previousRoute)\n  - _trackScreenView(Route<dynamic> route)\n}\n\nclass AnalyticService {\n  + trackScreen(String screenName)\n}\n\nScreenObserver --> AnalyticService\n@enduml",
+      "methods": [
+        {
+          "name": "didPush",
+          "description": "Callback method that is called when a new route is pushed onto the navigation stack. It tracks the screen view if the route passes the default route filter.",
+          "parameters": [
+            "Route<dynamic> route",
+            "Route<dynamic>? previousRoute"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "didReplace",
+          "description": "Callback method that is called when a route is replaced. It tracks the screen view of the new route if it passes the default route filter.",
+          "parameters": [
+            "Route<dynamic>? newRoute",
+            "Route<dynamic>? oldRoute"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "didPop",
+          "description": "Callback method that is called when a route is popped from the navigation stack. It tracks the screen view of the previous route if it passes the default route filter.",
+          "parameters": [
+            "Route<dynamic> route",
+            "Route<dynamic>? previousRoute"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "_trackScreenView",
+          "description": "Internal method that extracts the screen name from the route settings and sends it to the AnalyticService for tracking.",
+          "parameters": [
+            "Route<dynamic> route"
+          ],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/services/analytic_service.dart"
+      ]
+    },
+    {
+      "name": "lib/app/app.router.dart",
+      "description": "This Dart file is responsible for managing the navigation and routing functionality of the Gyde app. It defines the available routes, creates the necessary page factories, and provides extension methods on the NavigationService to simplify navigation between the various views of the application.",
+      "class_diagram": "@startuml\nclass StackedRouter {\n  + List<RouteDef> get routes()\n  + Map<Type, StackedRouteFactory> get pagesMap()\n}\n\nclass Routes {\n  + static const homeView: String\n  + static const startupView: String\n  + static const all: Set<String>\n}\n\nclass NavigatorStateExtension {\n  + Future<dynamic> navigateToHomeView()\n  + Future<dynamic> navigateToStartupView()\n  + Future<dynamic> replaceWithHomeView()\n  + Future<dynamic> replaceWithStartupView()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "StackedRouter.routes",
+          "description": "Provides a list of the available routes in the application, including the HomeView and StartupView.",
+          "parameters": null,
+          "return_type": "List<RouteDef>"
+        },
+        {
+          "name": "StackedRouter.pagesMap",
+          "description": "Defines the page factories for each of the available routes, which are used to create the appropriate widgets when navigating to those routes.",
+          "parameters": null,
+          "return_type": "Map<Type, StackedRouteFactory>"
+        },
+        {
+          "name": "NavigatorStateExtension.navigateToHomeView",
+          "description": "Provides a convenient method to navigate to the HomeView, allowing for optional parameters and transitions.",
+          "parameters": [
+            "int?",
+            "bool",
+            "Map<String, String>?",
+            "Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?"
+          ],
+          "return_type": "Future<dynamic>"
+        },
+        {
+          "name": "NavigatorStateExtension.navigateToStartupView",
+          "description": "Provides a convenient method to navigate to the StartupView, allowing for optional parameters and transitions.",
+          "parameters": [
+            "int?",
+            "bool",
+            "Map<String, String>?",
+            "Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?"
+          ],
+          "return_type": "Future<dynamic>"
+        },
+        {
+          "name": "NavigatorStateExtension.replaceWithHomeView",
+          "description": "Provides a convenient method to replace the current route with the HomeView, allowing for optional parameters and transitions.",
+          "parameters": [
+            "int?",
+            "bool",
+            "Map<String, String>?",
+            "Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?"
+          ],
+          "return_type": "Future<dynamic>"
+        },
+        {
+          "name": "NavigatorStateExtension.replaceWithStartupView",
+          "description": "Provides a convenient method to replace the current route with the StartupView, allowing for optional parameters and transitions.",
+          "parameters": [
+            "int?",
+            "bool",
+            "Map<String, String>?",
+            "Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?"
+          ],
+          "return_type": "Future<dynamic>"
+        }
+      ],
+      "dependencies": [
+        "flutter/material.dart",
+        "gyde_app/ui/views/home/home_view.dart",
+        "gyde_app/ui/views/startup/startup_view.dart",
+        "stacked/stacked.dart",
+        "stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/dialogs/info_alert/info_alert_dialog.dart",
+      "description": "The `InfoAlertDialog` is responsible for displaying a simple information alert dialog with a title, description, and a button to dismiss the dialog. It is used to provide users with important information or notifications within the Gyde app.",
+      "class_diagram": "@startuml\nclass InfoAlertDialog {\n  + const InfoAlertDialog({required this.request, required this.completer})\n  + Widget builder(BuildContext context, InfoAlertDialogModel viewModel, Widget? child)\n  + InfoAlertDialogModel viewModelBuilder(BuildContext context)\n}\n\nclass InfoAlertDialogModel {\n}\n\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the UI for the information alert dialog, including the title, description, and a button to dismiss the dialog.",
+          "parameters": [
+            "BuildContext context",
+            "InfoAlertDialogModel viewModel",
+            "Widget? child"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Provides an instance of the `InfoAlertDialogModel` to be used by the `InfoAlertDialog` widget.",
+          "parameters": [
+            "BuildContext context"
+          ],
+          "return_type": "InfoAlertDialogModel"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/ui/common/app_colors.dart",
+        "package:gyde_app/ui/common/ui_helpers.dart",
+        "package:gyde_app/ui/dialogs/info_alert/info_alert_dialog_model.dart",
+        "package:stacked/stacked.dart",
+        "package:stacked_services/stacked_services.dart"
       ]
     }
   ],
@@ -137,7 +895,7 @@
       "purpose": "Creating gaps in layouts"
     }
   ],
-  "sequence_diagram": "@startuml\nactor User\nparticipant main\nparticipant AppView\nparticipant StartupView\nparticipant StartupViewModel\nparticipant HomeView\nparticipant HomeViewModel\n\nUser -> main: Launch app\nmain -> AppView: Create and run\nAppView -> StartupView: Initialize\nStartupView -> StartupViewModel: Run startup logic\nStartupViewModel -> HomeView: Navigate on completion\nHomeView -> HomeViewModel: Initialize\nUser -> HomeView: Interact\nHomeView -> HomeViewModel: Handle user actions\nHomeViewModel -> HomeView: Update UI\nHomeViewModel -> DialogService: Show dialog\nHomeViewModel -> BottomSheetService: Show bottom sheet\n@enduml",
-  "state_management_flow": "State is managed using the Stacked architecture. ViewModels (e.g., HomeViewModel, StartupViewModel) handle the business logic and state for their respective views. The app.locator.dart file sets up dependency injection, while app.router.dart manages navigation between views.",
-  "navigation_flow": "The application starts with main.dart, which sets up the app and runs AppView. AppView initializes the Stacked architecture and shows the StartupView. After completing initialization logic, it navigates to the HomeView. Navigation between views is handled by the Stacked Router defined in app.router.dart."
+  "sequence_diagram": "@startuml\nactor User\nparticipant main\nparticipant AppView\nparticipant StartupView\nparticipant StartupViewModel\nparticipant HomeView\nparticipant HomeViewModel\n\nUser -> main: Launch app\nmain -> AppView: Create and run\nAppView -> StartupView: Initialize\nStartupView -> StartupViewModel: Run startup logic\nStartupViewModel -> HomeView: Navigate to home screen\nHomeView -> HomeViewModel: Initialize\nUser -> HomeView: Interact (increment counter, show dialog, show bottom sheet)\nHomeView -> HomeViewModel: Handle user actions\nHomeViewModel -> DialogService: Show info alert dialog\nHomeViewModel -> BottomSheetService: Show notice bottom sheet\n@enduml",
+  "state_management_flow": "The Gyde app uses the Stacked architecture for state management. Each view (e.g., HomeView, StartupView) has a corresponding view model (HomeViewModel, StartupViewModel) that handles the business logic and state for that view. The view models interact with services (such as DialogService and BottomSheetService) to handle user interactions and update the UI accordingly. The app.locator.dart file sets up the dependency injection, ensuring that the view models and services are properly integrated and accessible throughout the application.",
+  "navigation_flow": "The application's navigation is managed using the Stacked Router, which is defined in the app.router.dart file. This file declares the available routes (HomeView and StartupView) and provides extension methods on the NavigationService to simplify navigation between these views. The main entry point, main.dart, sets up the app and runs the AppView, which initializes the Stacked architecture and shows the StartupView. After the startup logic is completed, the StartupViewModel navigates to the HomeView, which is the main screen of the application. From the HomeView, users can interact with the app's features, such as incrementing the counter, showing a dialog, and displaying a bottom sheet, all of which are handled by the HomeViewModel and the corresponding services."
 }
