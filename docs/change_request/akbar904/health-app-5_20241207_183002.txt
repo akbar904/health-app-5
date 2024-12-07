@@ -1,0 +1,3 @@
+Please update the existing codebase to a TODO apps where it is really good function apps. With the current Flutter Stacked view models with very good design.
+
+DONT USE ANY API CALL, BUT MAKE SURE THE APP IS USABLE.
