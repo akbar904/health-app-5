@@ -483,6 +483,15 @@
       ]
     },
     {
+      "name": "lib/ui/common/text_themes.dart", 
+      "description": "This Dart file defines a comprehensive set of text styles used throughout the application. It includes styles for different text categories like display, headline, title, body and label text, with variations in size, weight and letter spacing. This centralized approach ensures consistent typography across the UI.",
+      "class_diagram": "",
+      "methods": [],
+      "dependencies": [
+        "package:flutter/material.dart"
+      ]
+    },
+    {
       "name": "lib/utils/const/const.dart",
       "description": "This file contains a collection of constant values and configurations used across the application. It provides a centralized location to manage and access these constants, promoting consistency and maintainability throughout the codebase.",
       "class_diagram": "",
