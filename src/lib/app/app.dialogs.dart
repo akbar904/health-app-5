@@ -4,20 +4,25 @@
 // StackedDialogGenerator
 // **************************************************************************
 
-import 'package:gyde_app/app/app.locator.dart';
-import 'package:gyde_app/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import 'app.locator.dart';
+import '../ui/dialogs/confirm_delete/confirm_delete_dialog.dart';
+import '../ui/dialogs/task_details/task_details_dialog.dart';
+
 enum DialogType {
-  infoAlert,
+  taskDetails,
+  confirmDelete,
 }
 
 void setupDialogUi() {
   final dialogService = locator<DialogService>();
 
-  final builders = <DialogType, DialogBuilder>{
-    DialogType.infoAlert: (context, request, completer) =>
-        InfoAlertDialog(request: request, completer: completer),
+  final Map<DialogType, DialogBuilder> builders = {
+    DialogType.taskDetails: (context, request, completer) =>
+        TaskDetailsDialog(request: request, completer: completer),
+    DialogType.confirmDelete: (context, request, completer) =>
+        ConfirmDeleteDialog(request: request, completer: completer),
   };
 
   dialogService.registerCustomDialogBuilders(builders);
