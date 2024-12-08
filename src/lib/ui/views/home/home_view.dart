@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:gyde_app/ui/common/app_colors.dart';
 import 'package:gyde_app/ui/views/home/home_viewmodel.dart';
+import 'package:gyde_app/ui/widgets/empty_state_widget.dart';
+import 'package:gyde_app/ui/widgets/todo_item_widget.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
@@ -13,70 +16,36 @@ class HomeView extends StackedView<HomeViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Gap(50),
-                Column(
-                  children: [
-                    const Text(
-                      'Hello from STEVE x STACKED!',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    const Gap(25),
-                    MaterialButton(
-                      color: Colors.black,
-                      onPressed: viewModel.incrementCounter,
-                      child: Text(
-                        viewModel.counterLabel,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                      color: Colors.grey,
-                      onPressed: viewModel.showDialog,
-                      child: const Text(
-                        'Show Dialog',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    MaterialButton(
-                      color: Colors.grey,
-                      onPressed: viewModel.showBottomSheet,
-                      child: const Text(
-                        'Show Bottom Sheet',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+      appBar: AppBar(
+        title: const Text('Todo List'),
+        backgroundColor: kcPrimaryColor,
+        foregroundColor: Colors.white,
+      ),
+      body: viewModel.todos.isEmpty
+          ? EmptyStateWidget(
+              message: 'No todos yet.\nTap the + button to add one!',
+              onActionPressed: viewModel.showAddTodoSheet,
+              actionLabel: 'Add Todo',
+            )
+          : ListView.builder(
+              itemCount: viewModel.todos.length,
+              itemBuilder: (context, index) {
+                final todo = viewModel.todos[index];
+                return TodoItemWidget(
+                  todo: todo,
+                  onToggle: () => viewModel.toggleTodoCompletion(todo.id),
+                  onDelete: () => viewModel.showDeleteDialog(todo.id),
+                );
+              },
             ),
-          ),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: viewModel.showAddTodoSheet,
+        backgroundColor: kcPrimaryColor,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 
   @override
-  HomeViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      HomeViewModel();
+  HomeViewModel viewModelBuilder(BuildContext context) => HomeViewModel();
 }
