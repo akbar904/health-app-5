@@ -26,6 +26,10 @@ class StorageService {
   String _encode(List<Todo> todos) =>
       json.encode(todos.map((todo) => todo.toJson()).toList());
 
-  List<Todo> _decode(String str) =>
-      (json.decode(str) as List).map((item) => Todo.fromJson(item)).toList();
+  List<Todo> _decode(String str) {
+    final List<dynamic> jsonList = json.decode(str) as List<dynamic>;
+    return jsonList
+        .map((item) => Todo.fromJson(item as Map<String, dynamic>))
+        .toList();
+  }
 }

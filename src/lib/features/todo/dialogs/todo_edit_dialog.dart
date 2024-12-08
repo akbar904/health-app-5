@@ -24,7 +24,7 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
   @override
   void initState() {
     super.initState();
-    final Todo? todo = widget.request.data;
+    final todo = widget.request.data as Todo?;
     _titleController = TextEditingController(text: todo?.title ?? '');
     _descriptionController =
         TextEditingController(text: todo?.description ?? '');
