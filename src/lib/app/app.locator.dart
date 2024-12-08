@@ -11,6 +11,8 @@ import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
+import '../services/todo_service.dart';
+
 final locator = StackedLocator.instance;
 
 Future<void> setupLocator({
@@ -19,12 +21,11 @@ Future<void> setupLocator({
 }) async {
 // Register environments
   locator.registerEnvironment(
-    environment: environment,
-    environmentFilter: environmentFilter,
-  );
+      environment: environment, environmentFilter: environmentFilter);
 
 // Register dependencies
-  locator.registerLazySingleton(BottomSheetService.new);
-  locator.registerLazySingleton(DialogService.new);
-  locator.registerLazySingleton(NavigationService.new);
+  locator.registerLazySingleton(() => BottomSheetService());
+  locator.registerLazySingleton(() => DialogService());
+  locator.registerLazySingleton(() => NavigationService());
+  locator.registerLazySingleton(() => TodoService());
 }
