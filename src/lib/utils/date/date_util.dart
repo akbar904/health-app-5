@@ -1,13 +1,16 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
+class DateUtil {
+  static DateTime? fromJson(dynamic value) {
+    if (value is String) {
+      return DateTime.tryParse(value);
+    }
+    return null;
+  }
 
-// abstract class DateUtil {
-//   static DateTime? fromJson(dynamic value) {
-//     if (value is Timestamp) return value.toDate();
+  static String formatDate(DateTime date) {
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
 
-//     if (value is String) return DateTime.parse(value);
-
-//     if (value == null) return null;
-
-//     return value as DateTime;
-//   }
-// }
+  static String formatDateTime(DateTime date) {
+    return '${formatDate(date)} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+  }
+}
