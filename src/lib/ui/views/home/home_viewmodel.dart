@@ -1,35 +1,43 @@
 import 'package:gyde_app/app/app.bottomsheets.dart';
 import 'package:gyde_app/app/app.dialogs.dart';
 import 'package:gyde_app/app/app.locator.dart';
+import 'package:gyde_app/models/todo_item.dart';
+import 'package:gyde_app/services/todo_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final _todoService = locator<TodoService>();
 
-  String get counterLabel => 'Counter is: $_counter';
+  List<TodoItem> get todos => _todoService.todos;
 
-  int _counter = 0;
+  void showAddTodoSheet() async {
+    final result = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.addTodo,
+    );
 
-  void incrementCounter() {
-    _counter++;
+    if (result?.confirmed ?? false) {
+      rebuildUi();
+    }
+  }
+
+  void toggleTodoCompletion(String id) {
+    _todoService.toggleTodoCompletion(id);
     rebuildUi();
   }
 
-  void showDialog() {
-    _dialogService.showCustomDialog(
-      variant: DialogType.infoAlert,
-      title: 'Steve Rocks!',
-      description: 'Give steve $_counter stars on Github',
+  void showDeleteDialog(String id) async {
+    final result = await _dialogService.showCustomDialog(
+      variant: DialogType.confirmDelete,
+      title: 'Delete Todo',
+      description: 'Are you sure you want to delete this todo?',
     );
-  }
 
-  void showBottomSheet() {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.notice,
-      title: 'title',
-      description: 'desc',
-    );
+    if (result?.confirmed ?? false) {
+      _todoService.deleteTodo(id);
+      rebuildUi();
+    }
   }
 }
