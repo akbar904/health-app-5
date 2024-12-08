@@ -1,0 +1,1 @@
+Craete an airlines reservation (consumer facing) apps where it is have full function apps. But just do mocking at first (i mean no need for API response for now).
