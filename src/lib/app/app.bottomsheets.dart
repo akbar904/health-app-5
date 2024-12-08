@@ -4,20 +4,21 @@
 // StackedBottomsheetGenerator
 // **************************************************************************
 
-import 'package:gyde_app/app/app.locator.dart';
-import 'package:gyde_app/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import 'app.locator.dart';
+import '../ui/bottom_sheets/add_todo/add_todo_sheet.dart';
+
 enum BottomSheetType {
-  notice,
+  addTodo,
 }
 
 void setupBottomSheetUi() {
   final bottomsheetService = locator<BottomSheetService>();
 
-  final builders = <BottomSheetType, SheetBuilder>{
-    BottomSheetType.notice: (context, request, completer) =>
-        NoticeSheet(request: request, completer: completer),
+  final Map<BottomSheetType, SheetBuilder> builders = {
+    BottomSheetType.addTodo: (context, request, completer) =>
+        AddTodoSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);
