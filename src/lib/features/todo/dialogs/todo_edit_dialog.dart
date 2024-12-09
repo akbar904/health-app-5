@@ -83,9 +83,12 @@ class _TodoEditDialogState extends State<TodoEditDialog> {
                 horizontalSpaceSmall,
                 ElevatedButton(
                   onPressed: () {
+                    if (_titleController.text.trim().isEmpty) {
+                      return;
+                    }
                     final todoData = {
-                      'title': _titleController.text,
-                      'description': _descriptionController.text,
+                      'title': _titleController.text.trim(),
+                      'description': _descriptionController.text.trim(),
                     };
                     widget.completer(
                       DialogResponse(

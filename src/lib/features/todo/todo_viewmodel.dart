@@ -60,19 +60,31 @@ class TodoViewModel extends BaseViewModel {
 
   Future<void> updateTodo(Todo todo) async {
     try {
-      await _todoRepository.updateTodo(todo);
-      await loadTodos();
+      final response = await _dialogService.showCustomDialog(
+        variant: DialogType.todoEdit,
+        title: 'Edit Todo',
+        data: todo,
+      );
+
+      if (response?.confirmed ?? false) {
+        final data = response!.data as Map<String, String>;
+        final updatedTodo = todo.copyWith(
+          title: data['title']!,
+          description: data['description']!,
+        );
+        await _todoRepository.updateTodo(updatedTodo);
+        await loadTodos();
+      }
     } catch (e) {
       setError(e);
     }
   }
 
   Future<void> deleteTodo(String id) async {
-    final response = await _dialogService.showDialog(
+    final response = await _dialogService.showCustomDialog(
+      variant: DialogType.todoDelete,
       title: 'Delete Todo',
       description: 'Are you sure you want to delete this todo?',
-      buttonTitle: 'Delete',
-      cancelTitle: 'Cancel',
     );
 
     if (response?.confirmed ?? false) {
@@ -98,4 +110,9 @@ class TodoViewModel extends BaseViewModel {
     _currentFilter = filter;
     notifyListeners();
   }
+}
+
+enum DialogType {
+  todoEdit,
+  todoDelete,
 }

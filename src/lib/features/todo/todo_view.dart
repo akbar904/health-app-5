@@ -32,10 +32,7 @@ class TodoView extends StackedView<TodoViewModel> {
               todos: viewModel.todos,
               onToggle: viewModel.toggleTodoStatus,
               onDelete: viewModel.deleteTodo,
-              onEdit: (todo) {
-                viewModel.updateTodo(todo);
-                viewModel.loadTodos();
-              },
+              onEdit: viewModel.updateTodo,
             ),
           ),
         ],

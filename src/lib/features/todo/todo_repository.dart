@@ -5,8 +5,6 @@ import 'package:gyde_app/services/storage_service.dart';
 class TodoRepository {
   final _storageService = locator<StorageService>();
 
-  TodoRepository();
-
   Future<List<Todo>> getTodos() async {
     return _storageService.getTodos();
   }
@@ -26,7 +24,10 @@ class TodoRepository {
   Future<void> toggleTodoStatus(String id) async {
     final todos = await getTodos();
     final todo = todos.firstWhere((todo) => todo.id == id);
-    final updatedTodo = todo.copyWith(isCompleted: !todo.isCompleted);
+    final updatedTodo = todo.copyWith(
+      isCompleted: !todo.isCompleted,
+      completedAt: !todo.isCompleted ? DateTime.now() : null,
+    );
     await updateTodo(updatedTodo);
   }
 }

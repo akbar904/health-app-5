@@ -34,14 +34,27 @@ class TodoItem extends StatelessWidget {
             color: todo.isCompleted ? kcMediumGrey : kcDarkGreyColor,
           ),
         ),
-        subtitle: todo.description.isNotEmpty
-            ? Text(
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (todo.description.isNotEmpty)
+              Text(
                 todo.description,
                 style: TextStyle(
                   color: todo.isCompleted ? kcLightGrey : kcMediumGrey,
                 ),
-              )
-            : null,
+              ),
+            Text(
+              'Created: ${_formatDate(todo.createdAt)}',
+              style: const TextStyle(fontSize: 12),
+            ),
+            if (todo.completedAt != null)
+              Text(
+                'Completed: ${_formatDate(todo.completedAt!)}',
+                style: const TextStyle(fontSize: 12),
+              ),
+          ],
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -59,5 +72,9 @@ class TodoItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
   }
 }
