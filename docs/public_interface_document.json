@@ -1,6 +1,6 @@
 {
   "package_name": "com.com.walturn.gyde_app",
-  "project_description": "The Gyde app is a feature-rich Flutter application that follows the Stacked architecture. It provides users with a suite of tools and functionalities, including home screen with counter and action buttons, a startup screen with navigation logic, and support for dialogs and bottom sheets. The app also integrates with Firebase for development and production environments, and includes various utility classes and extensions to simplify common tasks.",
+  "project_description": "The Gyde app is a feature-rich Flutter application that follows the Stacked architecture. It provides users with a suite of tools and functionalities, including a home screen with a counter and action buttons, a startup screen with navigation logic, and support for dialogs and bottom sheets. The app also integrates with Firebase for development and production environments, and includes various utility classes and extensions to simplify common tasks.",
   "architecture_overview": "The Gyde app uses the Stacked architecture, which separates the application into distinct layers for UI, view models, and services. The app setup is defined in the app.dart file, which sets up routes, dependencies, bottom sheets, and dialogs. The app.bottomsheets.dart and app.dialogs.dart files manage the registration and setup of custom bottom sheets and dialogs, respectively. The app.locator.dart file is responsible for setting up the dependency injection using the Stacked ServiceLocator. The app.router.dart file handles the navigation and routing between different views of the application.",
   "files": [
     {
@@ -483,7 +483,7 @@
       ]
     },
     {
-      "name": "lib/ui/common/text_themes.dart", 
+      "name": "lib/ui/common/text_themes.dart",
       "description": "This Dart file defines a comprehensive set of text styles used throughout the application. It includes styles for different text categories like display, headline, title, body and label text, with variations in size, weight and letter spacing. This centralized approach ensures consistent typography across the UI.",
       "class_diagram": "",
       "methods": [],
@@ -879,6 +879,416 @@
         "package:gyde_app/ui/dialogs/info_alert/info_alert_dialog_model.dart",
         "package:stacked/stacked.dart",
         "package:stacked_services/stacked_services.dart"
+      ]
+    },
+    {
+      "name": "lib/features/todo/widgets/todo_item.dart",
+      "description": "The TodoItem class is responsible for rendering a single todo item in the Todo application. It represents the UI and interaction logic for a single todo item, including functionality to mark it as complete, edit its title and description, and delete it.",
+      "class_diagram": "@startuml\nclass TodoItem extends StatelessWidget {\n  -Todo todo\n  -Function(String) onToggle\n  -Function(String) onDelete\n  -Function(String, String, String) onEdit\n  +build(BuildContext)\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the UI for a single todo item, including a checkbox to mark it as complete, the title and description, and buttons to edit or delete the todo.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/models/todo.dart",
+        "package:gyde_app/ui/common/app_colors.dart"
+      ]
+    },
+    {
+      "name": "lib/features/todo/widgets/todo_filter.dart",
+      "description": "The `TodoFilter` widget is responsible for providing a user interface to filter the list of todo items based on their status, i.e., 'All', 'Active', or 'Completed'. It is a key component in the Todo application's user experience, allowing users to easily navigate and manage their todo items.",
+      "class_diagram": "@startuml\nclass TodoFilter {\n  -String currentFilter\n  -Function(String) onFilterChanged\n  +build(BuildContext): Widget\n}\n\nclass _FilterButton {\n  -String label\n  -bool isSelected\n  -VoidCallback onTap\n  +build(BuildContext): Widget\n}\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the UI for the `TodoFilter` widget, which includes three filter buttons ('All', 'Active', and 'Completed') with the appropriate styling based on the current filter selection.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "gyde_app/ui/common/app_colors.dart"
+      ]
+    },
+    {
+      "name": "lib/features/todo/todo_repository.dart",
+      "description": "This file implements the TodoRepository class, which serves as the central interface for managing the application's todo items. It provides methods to create, read, update, and delete todo items, as well as manage their completion status. The TodoRepository acts as a mediator between the UI layer and the TodoService, which handles the actual data storage and retrieval.",
+      "class_diagram": "@startuml\nclass TodoRepository {\n  +Stream<List<Todo>> todosStream\n  +Future<void> addTodo(Todo todo)\n  +Future<void> updateTodo(Todo todo)\n  +Future<void> deleteTodo(String id)\n  +Future<void> toggleTodoCompletion(String id)\n  +Future<List<Todo>> getTodos()\n}\n\nclass TodoService {\n  +Stream<List<Todo>> get todosStream\n  +Future<void> addTodo(Todo todo)\n  +Future<void> updateTodo(Todo todo)\n  +Future<void> deleteTodo(String id)\n  +Future<void> toggleTodoCompletion(String id)\n  +Future<List<Todo>> getTodos()\n}\n\nTodoRepository --* TodoService\n@enduml",
+      "methods": [
+        {
+          "name": "get todosStream",
+          "description": "Provides a stream of the current list of todo items",
+          "parameters": null,
+          "return_type": "Stream<List<Todo>>"
+        },
+        {
+          "name": "addTodo",
+          "description": "Adds a new todo item to the system",
+          "parameters": [
+            "Todo todo"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateTodo",
+          "description": "Updates an existing todo item",
+          "parameters": [
+            "Todo todo"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteTodo",
+          "description": "Deletes a todo item by its ID",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "toggleTodoCompletion",
+          "description": "Toggles the completion status of a todo item",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getTodos",
+          "description": "Retrieves the current list of todo items",
+          "parameters": null,
+          "return_type": "Future<List<Todo>>"
+        }
+      ],
+      "dependencies": [
+        "gyde_app/models/todo.dart",
+        "gyde_app/services/todo_service.dart"
+      ]
+    },
+    {
+      "name": "lib/models/todo.dart",
+      "description": "This Dart file defines a `Todo` class that represents a single task or item in a todo list application. The class encapsulates the core data and functionality related to a todo item, providing a consistent and structured way to manage todos within the application.",
+      "class_diagram": "@startuml\nclass Todo {\n  +String id\n  +String title\n  +String description\n  +bool isCompleted\n  +DateTime? createdAt\n  +DateTime? updatedAt\n  +Todo copyWith()\n  +Map<String, dynamic> toJson()\n  +factory Todo.fromJson()\n  +List<Object?> get props\n}\n@enduml",
+      "methods": [
+        {
+          "name": "copyWith",
+          "description": "Creates a new `Todo` instance with the specified changes, allowing for easy updates to the task's properties without needing to create a new instance from scratch.",
+          "parameters": [
+            "String? id",
+            "String? title",
+            "String? description",
+            "bool? isCompleted",
+            "DateTime? createdAt",
+            "DateTime? updatedAt"
+          ],
+          "return_type": "Todo"
+        },
+        {
+          "name": "toJson",
+          "description": "Converts the `Todo` instance to a JSON map, which can be used for serialization and storage of the task data.",
+          "parameters": null,
+          "return_type": "Map<String, dynamic>"
+        },
+        {
+          "name": "fromJson",
+          "description": "Creates a new `Todo` instance from a JSON map, allowing for easy deserialization of task data.",
+          "parameters": [
+            "Map<String, dynamic> json"
+          ],
+          "return_type": "Todo"
+        },
+        {
+          "name": "get props",
+          "description": "Returns a list of the `Todo` instance's properties, which is used by the `Equatable` mixin to provide value-based equality and hashing.",
+          "parameters": null,
+          "return_type": "List<Object?>"
+        }
+      ],
+      "dependencies": [
+        "package:equatable/equatable.dart"
+      ]
+    },
+    {
+      "name": "lib/features/todo/widgets/todo_list.dart",
+      "description": "The `TodoList` widget is responsible for rendering a list of todo items and providing functionality for toggling the completion status, deleting, and editing individual todo items. It serves as the primary interface for displaying and managing the user's todo list within the application.",
+      "class_diagram": "@startuml\nclass TodoList {\n  + List<Todo> todos\n  + Function(String) onToggle\n  + Function(String) onDelete\n  + Function(String, String, String) onEdit\n  + Widget build(BuildContext)\n}\n\nclass Todo {\n  + String id\n  + String title\n  + String description\n  + bool completed\n}\n\nclass TodoItem {\n  + Todo todo\n  + Function(String) onToggle\n  + Function(String) onDelete\n  + Function(String, String, String) onEdit\n  + Widget build(BuildContext)\n}\n\nclass TodoEditDialog {\n  + String initialTitle\n  + String initialDescription\n  + Widget build(BuildContext)\n}\n\nTodoList -> Todo\nTodoList -> TodoItem\nTodoItem -> TodoEditDialog\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Renders the list of todo items, or displays a 'No todos yet' message if the list is empty. Utilizes the `TodoItem` widget to display each individual todo.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "gyde_app/models/todo.dart",
+        "gyde_app/features/todo/widgets/todo_item.dart",
+        "gyde_app/ui/dialogs/todo_edit/todo_edit_dialog.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/dialogs/todo_edit/todo_edit_dialog_model.dart",
+      "description": "This file defines the `TodoEditDialogModel` class, which is responsible for managing the state and behavior of the Todo Edit Dialog in a Flutter application. The main purpose of this class is to provide a reusable and testable model for handling the user interactions and logic related to editing a todo item.",
+      "class_diagram": "@startuml\nclass TodoEditDialogModel {\n  - _title: String\n  + get title(): String\n  - _description: String\n  + get description(): String\n  + get canSave(): bool\n  + setTitle(value: String): void\n  + setDescription(value: String): void\n}\n@enduml",
+      "methods": [
+        {
+          "name": "get title",
+          "description": "Returns the current title of the todo item being edited.",
+          "parameters": null,
+          "return_type": "String"
+        },
+        {
+          "name": "get description",
+          "description": "Returns the current description of the todo item being edited.",
+          "parameters": null,
+          "return_type": "String"
+        },
+        {
+          "name": "get canSave",
+          "description": "Determines whether the todo item can be saved based on the current title value.",
+          "parameters": null,
+          "return_type": "bool"
+        },
+        {
+          "name": "setTitle",
+          "description": "Updates the title of the todo item being edited and notifies listeners of the change.",
+          "parameters": [
+            "value: String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "setDescription",
+          "description": "Updates the description of the todo item being edited and notifies listeners of the change.",
+          "parameters": [
+            "value: String"
+          ],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/services/todo_service.dart",
+      "description": "The TodoService class is responsible for managing the state and lifecycle of todo items in the application. It provides an abstraction layer between the UI components and the underlying data storage, allowing for efficient handling of todo-related operations.",
+      "class_diagram": "@startuml\nclass TodoService {\n  - List<Todo> _todos\n  - StreamController<List<Todo>> _todoController\n  + Stream<List<Todo>> todosStream\n  + List<Todo> todos\n  + void dispose()\n  + Future<void> addTodo(Todo todo)\n  + Future<void> updateTodo(Todo todo)\n  + Future<void> deleteTodo(String id)\n  + Future<void> toggleTodoCompletion(String id)\n  + Future<List<Todo>> getTodos()\n}\n@enduml",
+      "methods": [
+        {
+          "name": "dispose",
+          "description": "Closes the _todoController stream, ensuring no further events are emitted.",
+          "parameters": null,
+          "return_type": "void"
+        },
+        {
+          "name": "addTodo",
+          "description": "Adds a new Todo item to the _todos list and notifies any subscribers of the updated list.",
+          "parameters": [
+            "Todo todo"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateTodo",
+          "description": "Updates an existing Todo item in the _todos list and notifies any subscribers of the updated list.",
+          "parameters": [
+            "Todo todo"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteTodo",
+          "description": "Removes a Todo item from the _todos list based on the provided ID and notifies any subscribers of the updated list.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "toggleTodoCompletion",
+          "description": "Toggles the completion status of a Todo item in the _todos list and notifies any subscribers of the updated list.",
+          "parameters": [
+            "String id"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "getTodos",
+          "description": "Retrieves the current list of Todo items.",
+          "parameters": null,
+          "return_type": "Future<List<Todo>>"
+        }
+      ],
+      "dependencies": [
+        "dart:async",
+        "gyde_app/models/todo.dart"
+      ]
+    },
+    {
+      "name": "lib/features/todo/widgets/todo_input.dart",
+      "description": "The TodoInput class is responsible for providing a user interface for creating new todo items. It allows the user to enter a title and an optional description for a new todo, and submits the information to a callback function when the user presses the 'Add Todo' button.",
+      "class_diagram": "@startuml\nclass TodoInput extends StatefulWidget {\n  -Function(String, String) onSubmit\n}\n\nclass _TodoInputState extends State<TodoInput> {\n  -TextEditingController _titleController\n  -TextEditingController _descriptionController\n\n  +_submitTodo()\n  {\n    if (_titleController.text.trim().isNotEmpty) {\n      widget.onSubmit(_titleController.text.trim(), _descriptionController.text.trim());\n      _titleController.clear();\n      _descriptionController.clear();\n    }\n  }\n\n  +Widget build(BuildContext context)\n  {\n    return Container(\n      // UI layout with TextFields and ElevatedButton\n    );\n  }\n}\n@enduml",
+      "methods": [
+        {
+          "name": "_submitTodo",
+          "description": "Submits the todo item information to the provided onSubmit callback function, and clears the input fields.",
+          "parameters": [
+            "String",
+            "String"
+          ],
+          "return_type": null
+        },
+        {
+          "name": "build",
+          "description": "Builds the UI layout for the TodoInput widget, including the title and description input fields, and the 'Add Todo' button.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/ui/common/ui_helpers.dart"
+      ]
+    },
+    {
+      "name": "lib/features/todo/todo_viewmodel.dart",
+      "description": "This file contains the TodoViewModel class, which is responsible for managing the state and business logic of the Todo feature in the application. The primary purpose of this class is to provide a centralized and reusable way to interact with the Todo data, including fetching, creating, updating, and deleting tasks.",
+      "class_diagram": "@startuml\nclass TodoViewModel {\n  - _todoRepository: TodoRepository\n  - _todos: List<Todo>\n  - _filter: String\n  + get todos(): List<Todo>\n  + get filter(): String\n  + get filteredTodos(): List<Todo>\n  + initialize(): Future<void>\n  + setFilter(filter: String): void\n  + addTodo(title: String, description: String): Future<void>\n  + toggleTodo(id: String): Future<void>\n  + deleteTodo(id: String): Future<void>\n  + updateTodo(id: String, title: String, description: String): Future<void>\n}\n@enduml",
+      "methods": [
+        {
+          "name": "initialize",
+          "description": "Fetches the list of todos from the TodoRepository and updates the _todos state.",
+          "parameters": null,
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "setFilter",
+          "description": "Sets the current filter for the list of todos and notifies listeners of the change.",
+          "parameters": [
+            "filter: String"
+          ],
+          "return_type": "void"
+        },
+        {
+          "name": "addTodo",
+          "description": "Creates a new Todo item with the provided title and description, adds it to the TodoRepository, and updates the _todos state.",
+          "parameters": [
+            "title: String",
+            "description: String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "toggleTodo",
+          "description": "Toggles the completion status of a Todo item with the given id, updates the TodoRepository, and updates the _todos state.",
+          "parameters": [
+            "id: String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "deleteTodo",
+          "description": "Deletes a Todo item with the given id from the TodoRepository and updates the _todos state.",
+          "parameters": [
+            "id: String"
+          ],
+          "return_type": "Future<void>"
+        },
+        {
+          "name": "updateTodo",
+          "description": "Updates the title and description of a Todo item with the given id, saves the changes to the TodoRepository, and updates the _todos state.",
+          "parameters": [
+            "id: String",
+            "title: String",
+            "description: String"
+          ],
+          "return_type": "Future<void>"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/app/app.locator.dart",
+        "package:gyde_app/models/todo.dart",
+        "package:gyde_app/features/todo/todo_repository.dart",
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/features/todo/todo_view.dart",
+      "description": "The TodoView class is responsible for rendering the main UI of a todo list application. It provides a user interface for creating, viewing, filtering, and managing todo items.",
+      "class_diagram": "@startuml\nclass TodoView extends StackedView<TodoViewModel> {\n  + builder(BuildContext, TodoViewModel, Widget?): Widget\n  + viewModelBuilder(BuildContext): TodoViewModel\n  + onViewModelReady(TodoViewModel): void\n}\n\nclass TodoViewModel {\n  + filter: TodoFilter\n  + filteredTodos: List<Todo>\n  + addTodo(String, String): void\n  + toggleTodo(Todo): void\n  + deleteTodo(Todo): void\n  + updateTodo(Todo, String, String): void\n  + setFilter(TodoFilter): void\n  + initialize(): void\n}\n\nTodoView o-- TodoViewModel\nTodoView o-- TodoInput\nTodoView o-- TodoFilter\nTodoView o-- TodoList\n@enduml",
+      "methods": [
+        {
+          "name": "builder",
+          "description": "Builds the main UI of the TodoView, including the TodoInput, TodoFilter, and TodoList widgets.",
+          "parameters": [
+            "BuildContext",
+            "TodoViewModel",
+            "Widget?"
+          ],
+          "return_type": "Widget"
+        },
+        {
+          "name": "viewModelBuilder",
+          "description": "Provides an instance of the TodoViewModel to the StackedView.",
+          "parameters": [
+            "BuildContext"
+          ],
+          "return_type": "TodoViewModel"
+        },
+        {
+          "name": "onViewModelReady",
+          "description": "Initializes the TodoViewModel when the TodoView is ready.",
+          "parameters": [
+            "TodoViewModel"
+          ],
+          "return_type": "void"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/features/todo/todo_viewmodel.dart",
+        "package:gyde_app/features/todo/widgets/todo_filter.dart",
+        "package:gyde_app/features/todo/widgets/todo_input.dart",
+        "package:gyde_app/features/todo/widgets/todo_list.dart",
+        "package:stacked/stacked.dart"
+      ]
+    },
+    {
+      "name": "lib/ui/dialogs/todo_edit/todo_edit_dialog.dart",
+      "description": "The TodoEditDialog class is responsible for providing a modal dialog interface that allows the user to create or edit a todo item. It manages the state of the todo item's title and description, and provides functionality to save the changes or cancel the operation.",
+      "class_diagram": "@startuml\nclass TodoEditDialog {\n  - initialTitle: String\n  - initialDescription: String\n  + build(context: BuildContext): Widget\n}\n\nclass TodoEditDialogModel {\n  - _title: String\n  - _description: String\n  + setTitle(value: String): void\n  + setDescription(value: String): void\n  + get title: String\n  + get description: String\n  + get canSave: bool\n}\n\nTodoEditDialog --> TodoEditDialogModel\n@enduml",
+      "methods": [
+        {
+          "name": "build",
+          "description": "Builds the TodoEditDialog UI, which consists of two text fields for the title and description, and Cancel/Save buttons.",
+          "parameters": [
+            "context: BuildContext"
+          ],
+          "return_type": "Widget"
+        }
+      ],
+      "dependencies": [
+        "package:flutter/material.dart",
+        "package:gyde_app/ui/common/ui_helpers.dart",
+        "package:gyde_app/ui/dialogs/todo_edit/todo_edit_dialog_model.dart",
+        "package:stacked/stacked.dart"
       ]
     }
   ],
