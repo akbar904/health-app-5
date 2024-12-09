@@ -32,11 +32,9 @@ class TodoView extends StackedView<TodoViewModel> {
               todos: viewModel.todos,
               onToggle: viewModel.toggleTodoStatus,
               onDelete: viewModel.deleteTodo,
-              onEdit: (todo) async {
-                final result = await viewModel.updateTodo(todo);
-                if (result != null) {
-                  viewModel.loadTodos();
-                }
+              onEdit: (todo) {
+                viewModel.updateTodo(todo);
+                viewModel.loadTodos();
               },
             ),
           ),

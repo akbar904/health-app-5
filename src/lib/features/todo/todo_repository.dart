@@ -1,10 +1,11 @@
+import 'package:gyde_app/app/app.locator.dart';
 import 'package:gyde_app/models/todo.dart';
 import 'package:gyde_app/services/storage_service.dart';
 
 class TodoRepository {
-  final StorageService _storageService;
+  final _storageService = locator<StorageService>();
 
-  TodoRepository(this._storageService);
+  TodoRepository();
 
   Future<List<Todo>> getTodos() async {
     return _storageService.getTodos();
