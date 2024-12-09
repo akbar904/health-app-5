@@ -1,10 +1,11 @@
+import 'package:gyde_app/app/app.locator.dart';
 import 'package:gyde_app/models/todo.dart';
 import 'package:gyde_app/services/todo_service.dart';
 
 class TodoRepository {
-  final TodoService _todoService;
+  final _todoService = locator<TodoService>();
 
-  TodoRepository(this._todoService);
+  TodoRepository();
 
   Stream<List<Todo>> get todosStream => _todoService.todosStream;
 
