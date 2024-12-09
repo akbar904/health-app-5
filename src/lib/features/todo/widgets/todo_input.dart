@@ -48,6 +48,7 @@ class _TodoInputState extends State<TodoInput> {
               hintText: 'Add a new todo',
               border: OutlineInputBorder(),
             ),
+            onSubmitted: (_) => _submitTodo(),
           ),
           verticalSpaceSmall,
           TextField(

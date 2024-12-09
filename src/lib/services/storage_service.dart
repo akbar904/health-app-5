@@ -5,7 +5,8 @@ class StorageService {
   final List<Todo> _todos = [];
 
   Future<List<Todo>> getTodos() async {
-    return _todos;
+    return List<Todo>.from(_todos)
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
   }
 
   Future<void> saveTodo(Todo todo) async {
