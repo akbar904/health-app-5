@@ -26,7 +26,10 @@ class TodoRepository {
   Future<void> toggleTodoStatus(String id) async {
     final todos = await getTodos();
     final todo = todos.firstWhere((todo) => todo.id == id);
-    final updatedTodo = todo.copyWith(isCompleted: !todo.isCompleted);
+    final updatedTodo = todo.copyWith(
+      isCompleted: !todo.isCompleted,
+      completedAt: !todo.isCompleted ? DateTime.now() : null,
+    );
     await updateTodo(updatedTodo);
   }
 }
